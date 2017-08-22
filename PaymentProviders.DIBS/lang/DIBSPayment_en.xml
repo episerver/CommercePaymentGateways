@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="English" id="en">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <PaymentNotSpecified>Payment information is not specified.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Payment must be associated with an order group.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Payment must be associated with an order form.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is null.</ProcessPaymentNullHttpContext>
+          <CancelMessage>Your payment is declined or cancelled. Please try again or choose another payment method.</CancelMessage>
+          <NotEnoughStockWarning>Payment completed but not enough stock. Please contact administrators.</NotEnoughStockWarning>
+          <CartValidationWarning>An error occurred when processing cart.</CartValidationWarning>
+          <DIBSSettingsError>Error in DIBS API settings. Please contact administrator.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

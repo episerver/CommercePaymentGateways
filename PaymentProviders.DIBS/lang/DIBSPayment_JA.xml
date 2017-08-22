@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="日本語 (Japanese)" id="ja">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>お支払いは拒否またはキャンセルされます。 もう一度やり直すか、別のお支払い方法を選択してください</CancelMessage>
+          <DIBSSettingsError>DIBS API 設定のエラーです。 管理者に問い合わせてください。</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

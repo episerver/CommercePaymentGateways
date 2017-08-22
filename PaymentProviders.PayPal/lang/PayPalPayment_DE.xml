@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Deutsch" id="de">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>Das weltweit beliebteste Zahlungsverfahren.</PayPalText>
+          <PayPalSettingsError>Fehler in den PayPal-API-Einstellungen. Wenden Sie sich an den Administrator.</PayPalSettingsError>
+          <CancelMessage>Transaktion wurde von PayPal abgebrochen.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current ist Null</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>Die Erfassungsanfrage wurde ausgeführt. Die tatsächliche Erfassung muss bei PayPal durchgeführt werden.</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Dieser Warenkorb wurde bereits über PayPal bezahlt.</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Fehler beim Aufruf von SetExpressCheckout in der PayPal-API</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Der Warenkorb ist Null, obwohl von PayPal eine erfolgreiche Transaktionsverarbeitung zurückgeleitet wurde.</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Aufruf von PayPal-API GetExpressCheckoutDetails nicht möglich</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Aufruf von PayPal-API DoExpressCheckoutPayment nicht möglich</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Einkaufswagen wird bei der Verarbeitung der PayPal-Transaktion zurückgesetzt</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPal-Rechnungsadresse ist leer</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPal-Lieferadresse ist leer</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Ihre Zahlung wurde abgelehnt oder abgebrochen. Wiederholen Sie den Vorgang oder wählen Sie eine andere Zahlungsmethode aus.</PaymentCancelMessage>
+          <PaymentNotSpecified>Keine Zahlungsinformationen angegeben.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Der Zahlung muss eine Bestellgruppe zugeordnet werden.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Der Zahlung muss ein Bestellformular zugeordnet werden.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Die Versandadresse wurde geändert, wodurch sich der Gesamtsteuerbetrag geändert hat, bitte bestätigen.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Unbekannter Fehler beim Aufrufen der PayPal-API.</PayPalAPICallError>
+          <PayPalRefundError>Nichts zu erstatten.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

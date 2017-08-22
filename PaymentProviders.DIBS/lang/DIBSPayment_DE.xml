@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Deutsch" id="de">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>Ihre Zahlung wurde abgelehnt oder abgebrochen. Wiederholen Sie den Vorgang oder wählen Sie eine andere Zahlungsmethode aus.</CancelMessage>
+          <DIBSSettingsError>Fehler in den DIBS-API-Einstellungen. Wenden Sie sich an den Administrator.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>Keine Zahlungsinformationen angegeben.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Der Zahlung muss eine Bestellgruppe zugeordnet werden.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Der Zahlung muss ein Bestellformular zugeordnet werden.</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

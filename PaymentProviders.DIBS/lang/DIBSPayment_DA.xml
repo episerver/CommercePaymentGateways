@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="dansk" id="da">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>Din betaling blev afvist eller annulleret. Prøv igen, eller vælg en anden betalingsmetode</CancelMessage>
+          <DIBSSettingsError>Der opstod en fejl i API-indstillingerne for DIBS. Kontakt administratoren.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>Betalingsoplysninger er ikke angivet.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen skal være forbundet med en ordregruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen skal være forbundet med en bestillingsformular.</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,12 +1,3 @@
-PaymentGateways.ConsoleManager/App_Data/
-PaymentGateways.ConsoleManager/App_GlobalResources/
-PaymentGateways.ConsoleManager/Apps/
-PaymentGateways.ConsoleManager/Configs/
-PaymentGateways.ConsoleManager/NotificationTemplates/
-PaymentGateways.ConsoleManager/Default.aspx
-PaymentGateways.ConsoleManager/EPiServerDefault.aspx
-PaymentGateways.ConsoleManager/EPiServerLog.config
-PaymentGateways.ConsoleManager/Global.asax
 
 # User-specific files
 *ReSharper*

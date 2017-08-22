@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="français" id="fr">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>Votre paiement est refusé ou annulé. Veuillez réessayer ou choisir un autre mode de paiement</CancelMessage>
+          <DIBSSettingsError>Erreur au niveau des paramètres de l’API DIBS. Veuillez contacter l'administrateur.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>Les informations de paiement ne sont pas définies.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Le paiement doit être associé à un groupe de commandes.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Le paiement doit être associé à un formulaire de commandes.</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

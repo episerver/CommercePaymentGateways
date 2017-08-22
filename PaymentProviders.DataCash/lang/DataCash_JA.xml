@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="日本語 (Japanese)" id="ja">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>お支払いの詳細を入力してください。</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>支払いの要求は、3rdMan サービスによって拒否されました。</PaymentRejectedBy3rdMan>
+          <PaymentDetail>お支払いの詳細</PaymentDetail>
+          <CardType>カードの種類:</CardType>
+          <CardNumber>カード番号:</CardNumber>
+          <ExpiryDate>有効期限:</ExpiryDate>
+          <GenericError>DataCash でチェック アウトする際にエラーが発生しました。 お客様の情報を確認してください。</GenericError>
+          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>DataCash からリダイレクトされた成功したトランザクションの処理中、カートは null です</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

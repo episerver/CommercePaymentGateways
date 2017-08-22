@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="English" id="en">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <PaymentNotSpecified>Payment information is not specified.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Payment must be associated with an order group.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Payment must be associated with an order form.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Payment completed but not enough stock. Please contact administrators.</NotEnoughStockWarning>
+          <CartValidationWarning>An error occurred when processing cart.</CartValidationWarning>
+          <CreditCardEmpty>Please fill in the payment details.</CreditCardEmpty>
+          <CommitTranErrorCartNull>Cart is null while processing successful transaction redirected back from DataCash</CommitTranErrorCartNull>
+          <PaymentRejectedBy3rdMan>Payment request was rejected by 3rdMan service.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Payment details</PaymentDetail>
+          <CardType>Card type:</CardType>
+          <CardNumber>Card number:</CardNumber>
+          <ExpiryDate>Expiry date:</ExpiryDate>
+          <GenericError>An error has occurred during checkout with DataCash. Please check your information.</GenericError>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

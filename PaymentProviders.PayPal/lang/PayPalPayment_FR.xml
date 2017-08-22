@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="français" id="fr">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>La meilleure méthode de paiement du monde.</PayPalText>
+          <PayPalSettingsError>Erreur au niveau des paramètres de l’API Paypal. Veuillez contacter l'administrateur.</PayPalSettingsError>
+          <CancelMessage>La transaction a été annulée par PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current possède la valeur nulle</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>La demande de capture a été envoyée, la saisie réelle doit être effectuée dans PayPal</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Ce panier a déjà été payé dans PayPal</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Erreur lors de l’appel de SetExpressCheckout vers l’API PayPal</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Le panier possède la valeur nulle alors que le traitement de la transaction réussie est redirigé à partir de PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Échec de l’appel de l’API PayPal GetExpressCheckoutDetails</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Échec de l’appel de l’API PayPal DoExpressCheckoutPayment</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Le panier est réinitialisé pendant le traitement de la transaction PayPal</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>L’adresse de facturation PayPal est vide</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>L’adresse de livraison PayPal est vide</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Votre paiement est refusé ou annulé. Veuillez réessayer ou choisir un autre mode de paiement</PaymentCancelMessage>
+          <PaymentNotSpecified>Les informations de paiement ne sont pas définies.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Le paiement doit être associé à un groupe de commandes.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Le paiement doit être associé à un formulaire de commandes.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>L’adresse d’expédition a été modifiée et par conséquent le total des taxes également, veuillez confirmer.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Erreur inconnue lors de l’appel de l’API PayPal.</PayPalAPICallError>
+          <PayPalRefundError>Rien à rembourser.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="English" id="en">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PaymentNotSpecified>Payment information is not specified.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Payment must be associated with an order group.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Payment must be associated with an order form.</PaymentNotAssociatedOrderForm>
+          
+          <PayPalText>The world's most loved way to pay and get paid.</PayPalText>
+          <PayPalSettingsError>Error in PayPal API settings. Please contact administrator.</PayPalSettingsError>
+          <CancelMessage>Transaction was cancelled by PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is null.</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>The capture request is done, actual capturing must be done on PayPal.</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>This shopping cart has been paid already on PayPal.</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Error when call SetExpressCheckout to PayPal API.</ProcessPaymentSetExpressCheckoutError>
+          <ProcessPaymentTaxValueChangedWarning>The shipping address has been changed that causes tax total changed, please confirm that.</ProcessPaymentTaxValueChangedWarning>
+          <NotEnoughStockWarning>Payment completed but not enough stock. Please contact administrators.</NotEnoughStockWarning>
+          <CartValidationWarning>An error occurred when processing cart.</CartValidationWarning>
+          <CommitTranErrorCartNull>Cart is null while processing successful transaction redirected back from PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Cannot call PayPal API GetExpressCheckoutDetails</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Cannot call PayPal API DoExpressCheckoutPayment</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Cart is reset while processing PayPal transaction</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPal's BillingAddress is empty</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPal's ShippingAddress is empty</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Your payment is declined or cancelled. Please try again or choose another payment method</PaymentCancelMessage>
+          <PayPalAPICallError>Unknown error while calling PayPal API.</PayPalAPICallError>
+          <PayPalRefundError>Nothing to refund.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="svenska" id="sv">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <PaymentNotSpecified>Information om betalning inte anges.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalning skall vara associerad med en order grupp.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalning skall vara associerad med ett beställningsformulär .</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current är null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Betalning genomförd, men inte tillräckligt lagersaldo. Var god kontakta en administratör.</NotEnoughStockWarning>
+          <CartValidationWarning>Ett fel uppstod när du behandlade kundvagnen.</CartValidationWarning>
+          <CreditCardEmpty>Ange betalningsdetaljerna</CreditCardEmpty>
+          <CommitTranErrorCartNull>Varukorg är null vid bearbetning lyckad transaktion omdirigeras tillbaka från Datacash</CommitTranErrorCartNull>
+          <PaymentRejectedBy3rdMan>Betalningsbegäran nekades av en 3rdMan-tjänst.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Betalningsdetaljer</PaymentDetail>
+          <CardType>Korttyp:</CardType>
+          <CardNumber>Kortnummer:</CardNumber>
+          <ExpiryDate>Förfallodatum:</ExpiryDate>
+          <GenericError>Det uppstod ett fel vid utcheckningen med DataCash. Kontrollera informationen.</GenericError>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

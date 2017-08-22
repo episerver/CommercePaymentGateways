@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Deutsch" id="de">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Tragen Sie die Zahlungsdetails ein.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>Zahlungsanfrage wurde von Drittanbieter abgelehnt.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Zahlungsdetails</PaymentDetail>
+          <CardType>Kartentyp:</CardType>
+          <CardNumber>Kartennummer:</CardNumber>
+          <ExpiryDate>Ablaufdatum:</ExpiryDate>
+          <GenericError>Beim DataCash-Checkout ist ein Fehler aufgetreten. Überprüfen Sie Ihre Angaben.</GenericError>
+          <PaymentNotSpecified>Keine Zahlungsinformationen angegeben.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Der Zahlung muss eine Bestellgruppe zugeordnet werden.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Der Zahlung muss ein Bestellformular zugeordnet werden.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Der Einkaufswagen ist während der Verarbeitung der von DataCash zurückgeleiteten erfolgreichen Transaktion leer</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

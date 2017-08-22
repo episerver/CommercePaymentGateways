@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="norsk" id="no">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>Din betaling er avvist eller avbrutt. Prøv igjen, eller velg en annen betalingsmåte.</CancelMessage>
+          <DIBSSettingsError>Feil i DIBS API-innstillinger. Kontakt administrator.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>Betalingsinformasjon er ikke angitt.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen må knyttes til en bestillingsgruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen må knyttes til et bestillingsskjema.</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="suomi" id="fi">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>Maailman suosituin tapa maksamiseen ja maksujen vastaanottamiseen.</PayPalText>
+          <PayPalSettingsError>Virhe PayPalin API-asetuksissa. Ota yhteys järjestelmänvalvojaan.</PayPalSettingsError>
+          <CancelMessage>PayPal peruutti tapahtuman.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current on tyhjä arvo</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>Sieppauspyyntö on tehty, varsinainen sieppaus täytyy tehdä PayPal-palvelussa</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Tämä ostoskori on jo maksettu PayPal-palvelussa</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Virhe kutsuttaessa metodia SetExpressCheckout PayPal API:ssa</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Ostoskorin arvo on tyhjä käsiteltäessä PayPal-palvelusta takaisin ohjattua onnistunutta tapahtumaa </CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Ei voi kutsua metodia GetExpressCheckoutDetails PayPal API:ssa</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Ei voi kutsua metodia GetExpressCheckoutDetails PayPal API:ssa</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Ostoskori nollattiin PayPal-tapahtuman aikana.</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPalin BillingAddress on tyhjä</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPalin ShippingAddress on tyhjä</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Maksusi hylättiin tai peruutettiin. Yritä uudelleen tai valitse toinen maksutapa.</PaymentCancelMessage>
+          <PaymentNotSpecified>Maksutietoja ei ole määritetty.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Maksun on oltava liitetty tilausryhmään.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Maksun on oltava liitetty tilauslomakkeeseen.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Toimitusosoitetta on muutettu, ja tämän seurauksena yhteenlasketun veron määrä muuttuu. Vahvista muutos.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Tuntematon virhe kutsuttaessa PayPal-ohjelmointirajapintaa.</PayPalAPICallError>
+          <PayPalRefundError>Ei hyvitettävää.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

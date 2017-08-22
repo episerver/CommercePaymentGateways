@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="español" id="es">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Rellene los datos de pago.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>La solicitud de pago ha sido rechazada por el servicio 3rdMan.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Datos de pago</PaymentDetail>
+          <CardType>Tipo de tarjeta:</CardType>
+          <CardNumber>Número de tarjeta:</CardNumber>
+          <ExpiryDate>Fecha de vencimiento:</ExpiryDate>
+          <GenericError>Se ha producido un error durante la comprobación con DataCash. Por favor, verifique su información.</GenericError>
+          <PaymentNotSpecified>La información de pago no está especificada.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>El pago debe estar asociado con un grupo de pedidos.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>El pago debe estar asociado con un formulario de pedidos.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>El carro es nulo durante el procesamiento de la transacción correcta, redirigido de vuelta desde DataCash</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

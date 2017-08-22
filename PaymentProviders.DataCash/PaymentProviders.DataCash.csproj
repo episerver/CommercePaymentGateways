@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaymentProviders.DataCash</RootNamespace>
+    <AssemblyName>PaymentProviders.DataCash</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EPiServer">
+      <HintPath>..\packages\EPiServer.CMS.Core.10.10.0\lib\net45\EPiServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.ApplicationModules, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.ApplicationModules.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Business.Commerce, Version=11.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\EPiServer.Business.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Configuration">
+      <HintPath>..\packages\EPiServer.CMS.Core.10.10.0\lib\net45\EPiServer.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Data, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Data.Cache, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.Data.Cache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Enterprise">
+      <HintPath>..\packages\EPiServer.CMS.Core.10.10.0\lib\net45\EPiServer.Enterprise.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Events, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.Events.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Framework, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Licensing, Version=10.10.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Framework.10.10.0\lib\net45\EPiServer.Licensing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.Web.WebControls">
+      <HintPath>..\packages\EPiServer.CMS.Core.10.10.0\lib\net45\EPiServer.Web.WebControls.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.XForms">
+      <HintPath>..\packages\EPiServer.CMS.Core.10.10.0\lib\net45\EPiServer.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Mediachase.BusinessFoundation.Data, Version=11.0.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.BusinessFoundation.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce, Version=11.0.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Plugins.Payment, Version=11.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.Commerce.Website, Version=11.0.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.Commerce.Website.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.DataProvider, Version=11.0.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.DataProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.MetaDataPlus, Version=11.0.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.MetaDataPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mediachase.WebConsoleLib, Version=11.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPiServer.Commerce.Core.11.0.0\lib\net452\Mediachase.WebConsoleLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Transaction">
+      <HintPath>Lib\Transaction.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommerceManager\ConfigurePayment.ascx.cs">
+      <DependentUpon>ConfigurePayment.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommerceManager\ConfigurePayment.ascx.designer.cs">
+      <DependentUpon>ConfigurePayment.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommerceManager\EditTab.ascx.cs">
+      <DependentUpon>EditTab.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommerceManager\EditTab.ascx.designer.cs">
+      <DependentUpon>EditTab.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\DataCashPaymentController.cs" />
+    <Compile Include="DataCashPayment.cs" />
+    <Compile Include="DataCashPaymentGateway.cs" />
+    <Compile Include="DataCashPaymentOption.cs" />
+    <Compile Include="Frontend\PaymentMethod.ascx.cs">
+	  <DependentUpon>PaymentMethod.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Frontend\PaymentMethod.ascx.designer.cs" >
+	  <DependentUpon>PaymentMethod.ascx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\CountryCodes.cs" />
+    <Compile Include="Helpers\DataCashConfiguration.cs" />
+    <Compile Include="Helpers\DocumentHelpers.cs" />
+    <Compile Include="Helpers\RequestDocumentCreation.cs" />
+    <Compile Include="Helpers\Utilities.cs" />
+    <Compile Include="PageTypes\DataCashPage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Frontend\_DataCashConfirmation.cshtml" />
+    <None Include="Frontend\_DataCashPaymentMethod.cshtml" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CommerceManager\ConfigurePayment.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <Content Include="CommerceManager\EditTab.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+	<Content Include="Frontend\PaymentMethod.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+    <EmbeddedResource Include="CountriesCodes.txt" />
+    <Content Include="DataCashPaymentMetaClass.xml" />
+    <Content Include="images\DataCash-logo.jpg" />
+    <Content Include="lang\DataCash_DA.xml" />
+    <Content Include="lang\DataCash_DE.xml" />
+    <Content Include="lang\DataCash_EN.xml" />
+    <Content Include="lang\DataCash_ES.xml" />
+    <Content Include="lang\DataCash_FI.xml" />
+    <Content Include="lang\DataCash_FR.xml" />
+    <Content Include="lang\DataCash_IT.xml" />
+    <Content Include="lang\DataCash_JA.xml" />
+    <Content Include="lang\DataCash_NL.xml" />
+    <Content Include="lang\DataCash_NO.xml" />
+    <Content Include="lang\DataCash_SV.xml" />
+    <Content Include="lang\DataCash_ZH.xml" />
+    <Content Include="Lib\Transaction.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

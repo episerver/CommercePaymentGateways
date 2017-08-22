@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="中文 (Chinese)" id="zh-CN">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>请填写付款详细信息。</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>付款请求被 3rdMan 服务拒绝。</PaymentRejectedBy3rdMan>
+          <PaymentDetail>付款详细信息</PaymentDetail>
+          <CardType>卡类型：</CardType>
+          <CardNumber>卡号:</CardNumber>
+          <ExpiryDate>失效日期：</ExpiryDate>
+          <GenericError>使用 DataCash 结账时出错。 请检查您的信息。</GenericError>
+          <PaymentNotSpecified>付款信息未指定。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>付款必须与订单组相关联。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>付款必须与订单表单相关联。</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>在处理从 DataCash 重定向返回的成功交易时，购物车为空</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

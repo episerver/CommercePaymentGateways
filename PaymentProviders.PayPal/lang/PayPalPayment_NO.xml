@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="norsk" id="no">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>Verdens mest populære måte å betale og få betalt på.</PayPalText>
+          <PayPalSettingsError>Feil i PayPal API-innstillinger. Kontakt administrator.</PayPalSettingsError>
+          <CancelMessage>Transaksjonen ble annullert av PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current er null</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>Innhentingsforespørselen er fullført, faktisk innhenting må gjøres på PayPal</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Handlevognen er allerede betalt på PayPal</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Feil når kall SetExpressCheckout til PayPal API</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Handlevognen er null mens transaksjonen behandles etter omdirigering tilbake fra PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Kan ikke kalle PayPal API GetExpressCheckoutDetails</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Kan ikke kalle PayPal API DoExpressCheckoutPayment</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Handlevognen tilbakestilles mens PayPal-transaksjon behandles</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPals BillingAddress er tom</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPals ShippingAddress er tom</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Din betaling er avvist eller avbrutt. Prøv igjen, eller velg en annen betalingsmåte.</PaymentCancelMessage>
+          <PaymentNotSpecified>Betalingsinformasjon er ikke angitt.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen må knyttes til en bestillingsgruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen må knyttes til et bestillingsskjema.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Leveringsadressen er endret, noe som fører til at avgiften endres. Vennligst bekreft dette.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Ukjent feil under kall til PayPal API.</PayPalAPICallError>
+          <PayPalRefundError>Ingenting å refundere.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

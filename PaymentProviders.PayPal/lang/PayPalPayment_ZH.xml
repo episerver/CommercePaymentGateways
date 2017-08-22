@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="中文 (Chinese)" id="zh-CN">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>全球最受欢迎的付款和收款方式。</PayPalText>
+          <PayPalSettingsError>PayPal API 设置出错。 请与管理员联系。</PayPalSettingsError>
+          <CancelMessage>交易已被 Paypal 取消。</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current 为空</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>收取请求已完成，实际收取必须在 Paypal 上完成</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>此购物车已在 PayPal 上完成付款</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>调用 SetExpressCheckout 至 Paypal API 时出错</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>在处理从 Paypal 重定向返回的成功交易时，购物车为空</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>无法调用 PayPal API GetExpressCheckoutDetails</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>无法调用 PayPal API DoExpressCheckoutPayment</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>购物车已在处理 Paypal 交易时重置</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPal 的 BillingAddress 为空</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPal 的 ShippingAddress 为空</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>您的付款被拒绝或取消。 请重试或选择其他支付方式</PaymentCancelMessage>
+          <PaymentNotSpecified>付款信息未指定。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>付款必须与订单组相关联。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>付款必须与订单表单相关联。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>送货地址已更改，因此税额变更，请确认。</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>调用 PayPal API 时出现未知错误。</PayPalAPICallError>
+          <PayPalRefundError>没有可退款。</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Nederlands" id="nl">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Vul de betalingsgegevens in.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>De betaling werd geweigerd door 3rdMan.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Betalingsgegevens</PaymentDetail>
+          <CardType>Kaarttype:</CardType>
+          <CardNumber>Kaartnummer:</CardNumber>
+          <ExpiryDate>Vervaldatum:</ExpiryDate>
+          <GenericError>Er heeft zich een fout voorgedaan tijdens uitchecken met DataCash. Controleer uw informatie.</GenericError>
+          <PaymentNotSpecified>Betalingsinformatie is niet opgegeven.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betaling moet zijn gekoppeld aan een bestellingengroep.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betaling moet zijn gekoppeld aan een bestelformulier.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Winkelwagen is leeg vanwege het verwerken van geslaagde transactie die is terugverwezen vanaf DataCash</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

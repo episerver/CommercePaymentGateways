@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="中文 (Chinese)" id="zh-CN">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>您的付款被拒绝或取消。 请重试或选择其他支付方式</CancelMessage>
+          <DIBSSettingsError>DIBS API 设置出错。 请与管理员联系。</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>付款信息未指定。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>付款必须与订单组相关联。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>付款必须与订单表单相关联。</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

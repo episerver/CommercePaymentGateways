@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<languages>
+  <language name="dansk" id="da">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>Verdens foretrukne måde at betale og modtage betalinger på.</PayPalText>
+          <PayPalSettingsError>Der opstod en fejl i API-indstillingerne for PayPal. Kontakt administratoren.</PayPalSettingsError>
+          <CancelMessage>Transaktionen blev annulleret af PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current er null</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>Verifikationsanmodningen er gennemført, men selve verifikationen skal ske via PayPal</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Indkøbsvognen er allerede blevet betalt via PayPal</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Der opstod en fejl, da SetExpressCheckout i PayPal-API'en blev kaldt</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Vognen er null under behandling af en gennemført transaktion, der blev omdirigeret fra PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>GetExpressCheckoutDetails i PayPal-API'en kan ikke kaldes</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>DoExpressCheckoutPayment i PayPal-API'en kan ikke kaldes</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Vognen nulstilles under behandling af PayPal-transaktionen</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>Paypals BillingAddress er tom</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>Paypals ShippingAddress er tom</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Din betaling blev afvist eller annulleret. Prøv igen, eller vælg en anden betalingsmetode</PaymentCancelMessage>
+          <PaymentNotSpecified>Betalingsoplysninger er ikke angivet.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen skal være forbundet med en ordregruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen skal være forbundet med en bestillingsformular.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Forsendelsesadressen er blevet ændret, hvilket medfører en ændring af det samlede afgiftsbeløb. Bekræft venligst.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Der opstod en ukendt fejl under kald til PayPal API.</PayPalAPICallError>
+          <PayPalRefundError>Der er intet at refundere.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

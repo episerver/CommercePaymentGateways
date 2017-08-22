@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="dansk" id="da">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Udfyld venligst betalingsoplysningerne.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>Betalingsanmodning blev afvist af 3rdMan service.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Betalingsoplysninger</PaymentDetail>
+          <CardType>Korttype:</CardType>
+          <CardNumber>Kortnummer:</CardNumber>
+          <ExpiryDate>Udløbsdato:</ExpiryDate>
+          <GenericError>Der opstod en fejl under udtjekning med DataCash. Kontroller dine oplysninger.</GenericError>
+          <PaymentNotSpecified>Betalingsoplysninger er ikke angivet.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen skal være forbundet med en ordregruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen skal være forbundet med en bestillingsformular.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Vognen er null under behandling af en gennemført transaktion, der blev omdirigeret fra DataCash</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="日本語 (Japanese)" id="ja">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>The world's most loved way to pay and get paid. (世界で最も支持されている、支払・請求方法)</PayPalText>
+          <PayPalSettingsError>PayPal API 設定のエラーです。 管理者に問い合わせてください。</PayPalSettingsError>
+          <CancelMessage>トランザクションは、PayPal によって取り消されました。</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current が null になっています</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>キャプチャ要求が行われましたが、実際のキャプチャは PayPal で行う必要があります</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>このショッピングカートは PayPal で既に支払い済みです</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>SetExpressCheckout を PayPal API に呼び出す際のエラー</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>PayPal から元へとリダイレクトされたトランザクションは正常に処理されますが、カートは null です</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>PayPal API GetExpressCheckoutDetails を呼び出せません</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>PayPal API DoExpressCheckoutPayment を呼び出せません</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>カートは PayPal のトランザクションの処理中にリセットされます</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPal の BillingAddress が空白です</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPal の ShippingAddress が空白です</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>お支払いは拒否またはキャンセルされます。 もう一度やり直すか、別のお支払い方法を選択してください</PaymentCancelMessage>
+          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>配送先住所が変更されたため税金合計額が変わりました。これを確認してください。</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>PayPal API 呼び出し中の不明なエラー。</PayPalAPICallError>
+          <PayPalRefundError>返金はありません。</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

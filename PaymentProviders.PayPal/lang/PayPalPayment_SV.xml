@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="svenska" id="sv">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PaymentNotSpecified>Information om betalning inte anges.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalning skall vara associerad med en OrderGroup.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalning skall vara associerad med en OrderForm.</PaymentNotAssociatedOrderForm>
+
+          <PayPalText>Ett enkelt sätt att betala och få betalningar.</PayPalText>
+          <PayPalSettingsError>Fel i PayPal API-nställningar. Kontakta administratören.</PayPalSettingsError>
+          <CancelMessage>Transaktionen avbröts av PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current är null.</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>Betalning har utförts, slutförandet av transaktionen måste göras av PayPal.</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Den här kundkorgen har redan betalats.</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Fel vid anrop till SetExpressCheckout på PayPal API.</ProcessPaymentSetExpressCheckoutError>
+          <ProcessPaymentTaxValueChangedWarning>Den leveransadress har ändrats som orsakar skatte totalt förändrats, bekräfta att.</ProcessPaymentTaxValueChangedWarning>
+          <NotEnoughStockWarning>Betalning genomförd, men inte tillräckligt lagersaldo. Var god kontakta en administratör.</NotEnoughStockWarning>
+          <CartValidationWarning>Ett fel uppstod när du behandlade kundvagnen.</CartValidationWarning>
+          <CommitTranErrorCartNull>Varukorgen (Cart) är null vid behandling av godkänd transaktion som dirigerats tillbaks från PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Kan inte anropa PayPal API GetExpressCheckoutDetails</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Kan inte anropa PayPal API DoExpressCheckoutPayment</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Varukorgen återställdes medan PayPal-transaktionen behandlades.</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>PayPal's BillingAddress är tom.</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>PayPal's ShippingAddress är tom.</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Din betalning nekades eller avbröts. Försök igen eller välj annat betalningssätt.</PaymentCancelMessage>
+          <PayPalAPICallError>Okänt fel vid anrop PayPal API.</PayPalAPICallError>
+          <PayPalRefundError>Inget att återbetala.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

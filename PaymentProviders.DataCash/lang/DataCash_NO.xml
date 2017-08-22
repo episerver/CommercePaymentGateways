@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="norsk" id="no">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Fyll inn betalingsopplysningene.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>Betalingsanmodningen ble avvist av tredjeparts tjeneste.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Betalingsopplysninger</PaymentDetail>
+          <CardType>Korttype:</CardType>
+          <CardNumber>Kortnummer:</CardNumber>
+          <ExpiryDate>Utløpsdato:</ExpiryDate>
+          <GenericError>Det oppstod en feil med DataCash under utsjekking. Kontroller opplysningene dine.</GenericError>
+          <PaymentNotSpecified>Betalingsinformasjon er ikke angitt.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalingen må knyttes til en bestillingsgruppe.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalingen må knyttes til et bestillingsskjema.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Handlevognen er null mens vellykket transaksjon behandles etter omdirigering tilbake fra DataCash</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

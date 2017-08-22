@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="suomi" id="fi">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Täytä maksutiedot.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>3rdMan-palvelu hylkäsi maksupyynnön.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Maksun tiedot</PaymentDetail>
+          <CardType>Kortin tyyppi:</CardType>
+          <CardNumber>Kortin numero:</CardNumber>
+          <ExpiryDate>Päättymispäivämäärä:</ExpiryDate>
+          <GenericError>DataCashillä maksettaessa tapahtui virhe. Tarkista tietosi.</GenericError>
+          <PaymentNotSpecified>Maksutietoja ei ole määritetty.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Maksun on oltava liitetty tilausryhmään.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Maksun on oltava liitetty tilauslomakkeeseen.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Ostoskorin arvo on tyhjä käsiteltäessä DataCash-palvelusta takaisin ohjattua onnistunutta tapahtumaa.</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

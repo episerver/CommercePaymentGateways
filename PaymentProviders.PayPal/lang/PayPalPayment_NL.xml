@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="Nederlands" id="nl">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>De populairste manier ter wereld om te betalen en betaald te worden.</PayPalText>
+          <PayPalSettingsError>Fout in API-instellingen PayPal. Neem contact op met de beheerder.</PayPalSettingsError>
+          <CancelMessage>De transactie is geannuleerd door PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is ongeldig</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>De registratie-aanvraag is uitgevoerd, de werkelijke registratie moet worden uitgevoerd in PayPal</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Deze winkelwagen is al betaald in PayPal</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Fout bij het oproepen van SetExpressCheckout aan PayPal-API</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>Winkelwagen is leeg tijdens het verwerken van een succesvolle transactie die is terugverwezen van PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>Kan PayPal-API GetExpressCheckoutDetails niet oproepen</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>Kan PayPal-API DoExpressCheckoutPayment niet oproepen</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>Winkelwagen wordt gereset tijdens het verwerken van PayPal-transactie</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>BillingAddress van PayPal is leeg</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>ShippingAddress van PayPal is leeg</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Uw betaling is geweigerd of geannuleerd. Probeer het opnieuw of kies een andere betalingsmethode</PaymentCancelMessage>
+          <PaymentNotSpecified>Betalingsinformatie is niet opgegeven.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betaling moet zijn gekoppeld aan een bestellingengroep.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betaling moet zijn gekoppeld aan een bestelformulier.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Het verzendadres is veranderd waardoor de totale belasting is veranderd, bevestig dat a.u.b.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Onbekende fout tijdens oproepen van PayPal API.</PayPalAPICallError>
+          <PayPalRefundError>Niets terug te betalen.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

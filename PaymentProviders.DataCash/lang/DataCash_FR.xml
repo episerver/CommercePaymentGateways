@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="français" id="fr">
+    <Commerce>
+      <Checkout>
+        <DataCash>
+          <CreditCardEmpty>Veuillez renseigner les détails de paiement.</CreditCardEmpty>
+          <PaymentRejectedBy3rdMan>La demande de paiement a été rejetée par le service 3rdMan.</PaymentRejectedBy3rdMan>
+          <PaymentDetail>Détails de paiement</PaymentDetail>
+          <CardType>Type de carte :</CardType>
+          <CardNumber>Numéro de carte :</CardNumber>
+          <ExpiryDate>Date d'expiration :</ExpiryDate>
+          <GenericError>Une erreur s'est produite lors du processus de vérification avec DataCash. Veuillez vérifier vos informations.</GenericError>
+          <PaymentNotSpecified>Les informations de paiement ne sont pas définies.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Le paiement doit être associé à un groupe de commandes.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Le paiement doit être associé à un formulaire de commandes.</PaymentNotAssociatedOrderForm>
+          <CommitTranErrorCartNull>Le panier possède la valeur nulle alors que le traitement de la transaction réussie est redirigé à partir de DataCash</CommitTranErrorCartNull>
+        </DataCash>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

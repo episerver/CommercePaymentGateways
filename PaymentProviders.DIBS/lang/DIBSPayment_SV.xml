@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="svenska" id="sv">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <PaymentNotSpecified>Information om betalning inte anges.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Betalning skall vara associerad med en order grupp.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Betalning skall vara associerad med ett beställningsformulär.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current är null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Betalning genomförd, men inte tillräckligt lagersaldo. Var god kontakta en administratör.</NotEnoughStockWarning>
+          <CartValidationWarning>Ett fel uppstod när du behandlade kundvagnen.</CartValidationWarning>
+          <CancelMessage>Din betalning nekades eller avbröts. Försök igen eller ange annat betalningssätt.</CancelMessage>
+          <DIBSSettingsError>Fel i DIBS API-inställningar. Kontakta administratören.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

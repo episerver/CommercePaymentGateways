@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="español" id="es">
+    <Commerce>
+      <Checkout>
+        <PayPal>
+          <PayPalText>La forma de cobrar y pagar más apreciada del mundo.</PayPalText>
+          <PayPalSettingsError>Error en la configuración de la API de PayPal. Póngase en contacto con el administrador.</PayPalSettingsError>
+          <CancelMessage>La transacción ha sido cancelada por PayPal.</CancelMessage>
+          <ProcessPaymentNullHttpContext>HttpContext.Current es nulo</ProcessPaymentNullHttpContext>
+          <ProcessPaymentCaptureRequest>La solicitud de captura se ha realizado; la captura real debe realizarse en PayPal</ProcessPaymentCaptureRequest>
+          <ProcessPaymentStatusCompleted>Este carro de compra ya se ha pagado en PayPal</ProcessPaymentStatusCompleted>
+          <ProcessPaymentSetExpressCheckoutError>Error al llamar a SetExpressCheckout para la API de PayPal</ProcessPaymentSetExpressCheckoutError>
+          <CommitTranErrorCartNull>El carro es nulo durante el procesamiento de la transacción correcta, redirigido de vuelta desde PayPal</CommitTranErrorCartNull>
+          <CommitTranErrorGetExpressCheckoutDetails>No se puede llamar a GetExpressCheckoutDetails de la API de PayPal</CommitTranErrorGetExpressCheckoutDetails>
+          <CommitTranErrorDoExpressCheckoutPayment>No se puede llamar a DoExpressCheckoutPayment de la API de PayPal</CommitTranErrorDoExpressCheckoutPayment>
+          <CommitTranErrorCartReset>El carro se ha restablecido durante el procesamiento de la transacción de PayPal</CommitTranErrorCartReset>
+          <CommitTranErrorPayPalBillingAddressEmpty>La BillingAddress de PayPal está vacía</CommitTranErrorPayPalBillingAddressEmpty>
+          <CommitTranErrorPayPalShippingAddressEmpty>La ShippingAddress de PayPal está vacía</CommitTranErrorPayPalShippingAddressEmpty>
+          <PaymentCancelMessage>Su pago ha sido rechazado o cancelado. Por favor, inténtelo de nuevo o elija otra forma de pago</PaymentCancelMessage>
+          <PaymentNotSpecified>La información de pago no está especificada.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>El pago debe estar asociado con un grupo de pedidos.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>El pago debe estar asociado con un formulario de pedidos.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentTaxValueChangedWarning>Se ha cambiado la dirección de envío, por lo que también cambia el total de impuestos; por favor, confírmelo.</ProcessPaymentTaxValueChangedWarning>
+          <PayPalAPICallError>Error desconocido al llamar a la API de PayPal.</PayPalAPICallError>
+          <PayPalRefundError>No hay nada que reembolsar.</PayPalRefundError>
+        </PayPal>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>

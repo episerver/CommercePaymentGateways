@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <language name="suomi" id="fi">
+    <Commerce>
+      <Checkout>
+        <DIBS>
+          <CancelMessage>Maksusi hylättiin tai peruutettiin. Yritä uudelleen tai valitse toinen maksutapa.</CancelMessage>
+          <DIBSSettingsError>Virhe DIBS:n API-asetuksissa. Ota yhteys järjestelmänvalvojaan.</DIBSSettingsError>
+          <DIBSText>DIBS</DIBSText>
+          <PaymentNotSpecified>Maksutietoja ei ole määritetty.</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>Maksun on oltava liitetty tilausryhmään.</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>Maksun on oltava liitetty tilauslomakkeeseen.</PaymentNotAssociatedOrderForm>
+        </DIBS>
+      </Checkout>
+    </Commerce>
+  </language>
+</languages>
