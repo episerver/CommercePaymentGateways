@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.DataCash", "PaymentProviders.DataCash\PaymentProviders.DataCash.csproj", "{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DataCash", "EPiServer.Business.Commerce.Payment.DataCash\EPiServer.Business.Commerce.Payment.DataCash.csproj", "{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23E2768D-C9BB-4744-B37C-D8404F216E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.DataCash.Tests", "PaymentProviders.DataCash.Tests\PaymentProviders.DataCash.Tests.csproj", "{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DataCash.Tests", "EPiServer.Business.Commerce.Payment.DataCash.Tests\EPiServer.Business.Commerce.Payment.DataCash.Tests.csproj", "{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.PayPal", "PaymentProviders.PayPal\PaymentProviders.PayPal.csproj", "{A2E4036A-E96F-4A4D-8563-685056A0B361}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.PayPal", "EPiServer.Business.Commerce.Payment.PayPal\EPiServer.Business.Commerce.Payment.PayPal.csproj", "{A2E4036A-E96F-4A4D-8563-685056A0B361}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.PayPal.Tests", "PaymentProviders.PayPal.Tests\PaymentProviders.PayPal.Tests.csproj", "{DFD534C3-2B9F-4393-9B89-E15B4E14470D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.PayPal.Tests", "EPiServer.Business.Commerce.Payment.PayPal.Tests\EPiServer.Business.Commerce.Payment.PayPal.Tests.csproj", "{DFD534C3-2B9F-4393-9B89-E15B4E14470D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.DIBS", "PaymentProviders.DIBS\PaymentProviders.DIBS.csproj", "{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DIBS", "EPiServer.Business.Commerce.Payment.DIBS\EPiServer.Business.Commerce.Payment.DIBS.csproj", "{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.DIBS.Tests", "PaymentProviders.DIBS.Tests\PaymentProviders.DIBS.Tests.csproj", "{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DIBS.Tests", "EPiServer.Business.Commerce.Payment.DIBS.Tests\EPiServer.Business.Commerce.Payment.DIBS.Tests.csproj", "{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.Nsoftware.PaymentGateway", "PaymentProviders.Nsoftware.PaymentGateway\PaymentProviders.Nsoftware.PaymentGateway.csproj", "{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}"
 EndProject
