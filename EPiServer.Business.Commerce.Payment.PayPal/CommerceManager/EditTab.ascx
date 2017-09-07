@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditTab.ascx.cs" Inherits="PaymentProviders.PayPal.EditTab" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EditTab.ascx.cs" Inherits="EPiServer.Business.Commerce.Payment.PayPal.EditTab" %>
 <div id="DataForm">
     <table class="DataForm">
         <tr>

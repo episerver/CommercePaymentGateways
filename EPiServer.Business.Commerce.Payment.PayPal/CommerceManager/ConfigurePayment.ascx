@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ConfigurePayment.ascx.cs" Inherits="PaymentProviders.PayPal.ConfigurePayment" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ConfigurePayment.ascx.cs" Inherits="EPiServer.Business.Commerce.Payment.PayPal.ConfigurePayment" %>
 <div id="DataForm">
     <table cellpadding="0" cellspacing="2">
 	    <tr>

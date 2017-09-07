@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ConfigurePayment.ascx.cs" Inherits="PaymentProviders.DataCash.ConfigurePayment" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ConfigurePayment.ascx.cs" Inherits="EPiServer.Business.Commerce.Payment.DataCash.ConfigurePayment" %>
 <div id="DataForm">
     <table cellpadding="0" cellspacing="2">
 	    <tr>
