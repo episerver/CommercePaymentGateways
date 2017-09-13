@@ -1,5 +1,6 @@
 using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Orders;
+using PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport;
 using System;
 using System.Collections;
 
@@ -30,6 +31,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
         public string TransactionID { get; set; }
         public string TransactionType { get; set; }
         public string ValidationCode { get; set; }
+
         
         public static FakePayment CreatePayment(decimal amount, 
             PaymentType paymentType, 

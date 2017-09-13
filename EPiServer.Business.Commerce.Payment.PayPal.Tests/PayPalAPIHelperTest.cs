@@ -1,11 +1,11 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport;
+using EPiServer.Commerce.Order;
 using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Orders;
 using Moq;
-using EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport;
 using PayPal.PayPalAPIInterfaceService.Model;
 using System.Collections.Generic;
 using System.Globalization;

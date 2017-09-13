@@ -1,7 +1,7 @@
 ﻿using EPiServer.Commerce.Order;
 using System.Collections;
 
-namespace EPiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
+namespace PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
 {
     class FakeOrderAddress : IOrderAddress
     {

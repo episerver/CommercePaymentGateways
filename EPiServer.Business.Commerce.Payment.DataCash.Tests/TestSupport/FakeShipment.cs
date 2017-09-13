@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mediachase.Commerce.Orders;
 using System;
 
-namespace EPiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
+namespace PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
 {
     class FakeShipment : IShipment
     {

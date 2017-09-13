@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EPiServer.EPiServer.Business.Commerce.Payment.DIBS")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("EPiServer.Business.Commerce.Payment.DIBS")]
+[assembly: AssemblyDescription("Episerver Commerce Payment Gateway for DIBS")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("EPiServer")]
-[assembly: AssemblyProduct("EPiServer.EPiServer.Business.Commerce.Payment.DIBS")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Episerver")]
+[assembly: AssemblyProduct("Episerver Commerce Payment Gateway")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,17 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("00afb383-ee3b-4872-8b67-3b95a0db0b47")]
+[assembly: Guid("a048e1f4-332a-4462-9897-c2d21c8de8f5")]
+[assembly: CLSCompliant(true)]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("10.5.0.0")]

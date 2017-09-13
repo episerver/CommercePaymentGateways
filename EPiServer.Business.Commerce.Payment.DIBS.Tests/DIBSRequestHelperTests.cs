@@ -1,8 +1,8 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport;
+using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Orders;
 using Moq;
-using EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport;
 using System;
 using System.Collections.Generic;
 using Xunit;

@@ -7,8 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EPiServer.Business.Commerce.Payment.PayPal
-{
+namespace EPiServer.Business.Commerce.Payment.PayPal {
     
     
     public partial class EditTab {

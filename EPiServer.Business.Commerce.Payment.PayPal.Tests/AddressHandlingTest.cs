@@ -1,6 +1,6 @@
-﻿using EPiServer.Commerce.Order;
+﻿using EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport;
+using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Customers;
-using EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport;
 using PayPal.PayPalAPIInterfaceService.Model;
 using Xunit;
 

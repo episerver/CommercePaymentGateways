@@ -1,5 +1,4 @@
-﻿using EPiServer;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Editor;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;

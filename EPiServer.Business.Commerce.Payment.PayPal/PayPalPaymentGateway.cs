@@ -1,5 +1,4 @@
-﻿using EPiServer;
-using EPiServer.Commerce.Order;
+﻿using EPiServer.Commerce.Order;
 using EPiServer.Logging;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
@@ -243,7 +242,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                     //when address was changed on PayPal site, it might cause changing tax value changed and changing order value also.
                     var taxValueBefore = _taxCalculator.GetTaxTotal(cart, cart.Market, cart.Currency);
 
-                    var shippingAddress = orderGroup.CreateOrderAddress();
+                    var shippingAddress = orderGroup.CreateOrderAddress("address");
 
                     emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalShippingAddress, shippingAddress, CustomerAddressTypeEnum.Shipping, "CommitTranErrorPayPalShippingAddressEmpty");
                     if (!string.IsNullOrEmpty(emptyAddressMsg))
