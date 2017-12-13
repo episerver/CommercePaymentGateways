@@ -1,20 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace EPiServer.Business.Commerce.Payment.DataCash
 {
     public static class CountryCodes
     {
-        private static IEnumerable<string> _countriesCodes;
-
-        static CountryCodes()
-        {
-            _countriesCodes = GetAllLines();
-        }
+        private static readonly Lazy<string[]> _countriesCodes = new Lazy<string[]>(GetAllLines);
 
         /// <summary>
         /// Gets the numeric country code.
@@ -23,7 +16,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         /// <param name="countryCode">The country code as ISO ALPHA-3 code.</param>
         public static string GetNumericCountryCode(string countryCode)
         {
-            var countryCodeLine = _countriesCodes.FirstOrDefault(i => countryCode.Equals(i.Split(';')[1], StringComparison.OrdinalIgnoreCase));
+            var countryCodeLine = _countriesCodes.Value.FirstOrDefault(i => countryCode.Equals(i.Split(';')[1], StringComparison.OrdinalIgnoreCase));
             return !string.IsNullOrEmpty(countryCodeLine) ? countryCodeLine.Split(';')[2] : string.Empty;
         }
 
@@ -45,7 +38,9 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
                 }
             }
 
-            return result.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            // The result returned by reading stream above uses different new line character in some cases, it could be "\r\n" or "\n"
+            // and the Environment.NewLine is also different in different platform ("\r\n" in Windows platform and "\n" in Unix platform).
+            return result.Split(new[] { Environment.NewLine, "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
     }
 }

@@ -3,7 +3,6 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.BaseControls;
-using System.Net;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
 {
@@ -21,8 +20,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void Page_Load(object sender, System.EventArgs e)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
             if (_payPalConfiguration == null)
             {
                 _payPalConfiguration = new PayPalConfiguration();

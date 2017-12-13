@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DataCash", "EPiServer.Business.Commerce.Payment.DataCash\EPiServer.Business.Commerce.Payment.DataCash.csproj", "{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}"
 EndProject
@@ -61,8 +61,5 @@ Global
 		{545837FA-3EB2-4A08-B127-B3BFECA05540} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
 		{EF89D648-8568-487B-8712-C57C12133AB3} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
 		{58753FB1-B2C2-4466-A80C-8E837C26CC84} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5D4907D5-7323-414C-9443-9937222D8A63}
 	EndGlobalSection
 EndGlobal
