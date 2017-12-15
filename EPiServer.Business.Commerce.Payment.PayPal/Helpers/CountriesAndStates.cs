@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
 {
@@ -38,16 +37,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 Name = name;
             }
         }
-        
-        private static IEnumerable<Country> _countries;
-        
-        private static IEnumerable<State> _canadianUSStates;
 
-        static CountriesAndStates()
-        {
-            _countries = GetCountryCodes();
-            _canadianUSStates = GetStates();
-        }
+        private static readonly Lazy<IList<Country>> _countries = new Lazy<IList<Country>>(GetCountryCodes);
+        private static readonly Lazy<IList<State>> _canadianUSStates = new Lazy<IList<State>>(GetStates);
 
         /// <summary>
         /// Gets the Alpha 3 name by country alpha 2 code.
@@ -56,7 +48,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         /// <returns>The Alpha 3 name.</returns>
         public static string GetAlpha3CountryCode(string countryAlpha2Code)
         {
-            var country = _countries.FirstOrDefault(c => c.ISO2.Equals(countryAlpha2Code, StringComparison.OrdinalIgnoreCase));
+            var country = _countries.Value.FirstOrDefault(c => c.ISO2.Equals(countryAlpha2Code, StringComparison.OrdinalIgnoreCase));
             return country != null ? country.ISO3 : string.Empty;
         }
 
@@ -67,7 +59,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         /// <returns>The <see cref="CountryCodeType"/>.</returns>
         public static CountryCodeType GetAlpha2CountryCode(string countryAlpha3Code)
         {
-            var country = _countries.FirstOrDefault(c => c.ISO3.Equals(countryAlpha3Code, StringComparison.OrdinalIgnoreCase));
+            var country = _countries.Value.FirstOrDefault(c => c.ISO3.Equals(countryAlpha3Code, StringComparison.OrdinalIgnoreCase));
             var code = country != null ? country.ISO2 : string.Empty;
 
             if (string.IsNullOrEmpty(code))
@@ -96,7 +88,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return string.Empty;
             }
 
-            var state = _canadianUSStates.FirstOrDefault(s => s.Code.Equals(stateCode, StringComparison.OrdinalIgnoreCase));
+            var state = _canadianUSStates.Value.FirstOrDefault(s => s.Code.Equals(stateCode, StringComparison.OrdinalIgnoreCase));
             return state != null ? state.Name : stateCode;
         }
 
@@ -112,7 +104,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return string.Empty;
             }
 
-            var state = _canadianUSStates.FirstOrDefault(s => s.Name.Equals(stateName, StringComparison.OrdinalIgnoreCase));
+            var state = _canadianUSStates.Value.FirstOrDefault(s => s.Name.Equals(stateName, StringComparison.OrdinalIgnoreCase));
             return state != null ? state.Code : stateName;
         }
 
@@ -170,7 +162,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 }
             }
 
-            return result.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            // The result returned by reading stream above uses different new line character in some cases, it could be "\r\n" or "\n"
+            // and the Environment.NewLine is also different in different platform ("\r\n" in Windows platform and "\n" in Unix platform).
+            return result.Split(new[] { Environment.NewLine,  "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToArray();
         }
     }
 }

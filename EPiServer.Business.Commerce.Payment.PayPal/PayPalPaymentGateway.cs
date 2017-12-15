@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
-using System.Net;
 using System.Web;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
@@ -37,8 +36,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
         private string _notifyUrl = string.Empty;
         private PayPalConfiguration _paymentMethodConfiguration;
-        private SecurityProtocolType _currentProtocol;
-        
+
         public PayPalPaymentGateway()
             : this(ServiceLocator.Current.GetInstance<IFeatureSwitch>(),
                   ServiceLocator.Current.GetInstance<IInventoryProcessor>(),
@@ -111,12 +109,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return PaymentProcessingResult.CreateUnsuccessfulResult(Utilities.Translate("PaymentNotAssociatedOrderForm"));
             }
 
-            SetSecurityProtocolToTls12();
-
             if (string.IsNullOrEmpty(payment.TransactionType) && !string.IsNullOrEmpty(_paymentMethodConfiguration.PaymentAction))
             {
                 payment.TransactionType = _paymentMethodConfiguration.PaymentAction;
-                _orderRepository.Save(orderGroup);
             }
 
             PaymentProcessingResult paymentProcessingResult;
@@ -127,21 +122,21 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 if (payment.TransactionType == TransactionType.Capture.ToString())
                 {
                     paymentProcessingResult = ProcessPaymentCapture(orderGroup, payment);
-					RestoreSecurityProtocol();
-					return paymentProcessingResult;
+
+                    return paymentProcessingResult;
                 }
 
                 // When "Refund" shipment in Commerce Manager, this method will be invoked with the TransactionType is Credit
                 if (payment.TransactionType == TransactionType.Credit.ToString())
                 {
                     paymentProcessingResult = ProcessPaymentRefund(orderGroup, payment);
-					RestoreSecurityProtocol();
-					return paymentProcessingResult;
+
+                    return paymentProcessingResult;
                 }
 
                 // right now we do not support processing the order which is created by Commerce Manager
                 paymentProcessingResult = PaymentProcessingResult.CreateUnsuccessfulResult("The current payment method does not support order type.");
-                RestoreSecurityProtocol();
+
                 return paymentProcessingResult; // raise exception
             }
 
@@ -150,14 +145,13 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 // return true because this shopping cart has been paid already on PayPal
                 // when program flow redirects back from PayPal to PayPal.aspx file, call ProcessSuccessfulTransaction, run WorkFlow
                 paymentProcessingResult = PaymentProcessingResult.CreateSuccessfulResult(Utilities.Translate("ProcessPaymentStatusCompleted"));
-                RestoreSecurityProtocol();
+
                 return paymentProcessingResult;
 
             }
 
             // CHECKOUT
             paymentProcessingResult = ProcessPaymentCheckout(cart, payment);
-            RestoreSecurityProtocol();
 
             return paymentProcessingResult;
         }
@@ -192,8 +186,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var redirectionUrl = acceptUrl;
             using (TransactionScope scope = new TransactionScope())
             {
-                SetSecurityProtocolToTls12();
-
                 var getDetailRequest = new GetExpressCheckoutDetailsRequestType
                 {
                     Token = payment.Properties[PayPalExpTokenPropertyName] as string // Add request-specific fields to the request.
@@ -209,8 +201,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 var errorCheck = _payPalAPIHelper.CheckErrors(getDetailsResponse);
                 if (!string.IsNullOrEmpty(errorCheck))
                 {
-                    RestoreSecurityProtocol();
-
                     // unsuccessful get detail call
                     return ProcessUnsuccessfulTransaction(cancelUrl, errorCheck);
                 }
@@ -229,8 +219,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                     emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalBillingAddress, payment.BillingAddress, CustomerAddressTypeEnum.Billing, "CommitTranErrorPayPalBillingAddressEmpty");
                     if (!string.IsNullOrEmpty(emptyAddressMsg))
                     {
-                        RestoreSecurityProtocol();
-
                         return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
                     }
                 }
@@ -247,8 +235,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                     emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalShippingAddress, shippingAddress, CustomerAddressTypeEnum.Shipping, "CommitTranErrorPayPalShippingAddressEmpty");
                     if (!string.IsNullOrEmpty(emptyAddressMsg))
                     {
-                        RestoreSecurityProtocol();
-
                         return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
                     }
 
@@ -257,8 +243,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                     var taxValueAfter = _taxCalculator.GetTaxTotal(cart, cart.Market, cart.Currency);
                     if (taxValueBefore != taxValueAfter)
                     {
-                        RestoreSecurityProtocol();
-
                         _orderRepository.Save(cart); // Saving cart to submit order address changed.
                         scope.Complete();
                         return ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("ProcessPaymentTaxValueChangedWarning"));
@@ -278,8 +262,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 errorCheck = _payPalAPIHelper.CheckErrors(doCheckOutResponse);
                 if (!string.IsNullOrEmpty(errorCheck))
                 {
-                    RestoreSecurityProtocol();
-
                     // unsuccessful doCheckout response
                     return ProcessUnsuccessfulTransaction(cancelUrl, errorCheck);
                 }
@@ -290,8 +272,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
                 if (!cartCompleted)
                 {
-                    RestoreSecurityProtocol();
-
                     return UriSupport.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
                 }
 
@@ -302,8 +282,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 scope.Complete();
 
                 redirectionUrl = CreateRedirectionUrl(purchaseOrder, acceptUrl, payment.BillingAddress.Email);
-
-                RestoreSecurityProtocol();
             }
 
             _logger.Information($"PayPal transaction succeeds, redirect end user to {redirectionUrl}");
@@ -699,20 +677,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             {
                 contact.LastOrder = datetime;
                 contact.SaveChanges();
-            }
-        }
-
-        private void SetSecurityProtocolToTls12()
-        {
-            _currentProtocol = ServicePointManager.SecurityProtocol;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        }
-
-        private void RestoreSecurityProtocol()
-        {
-            if (ServicePointManager.SecurityProtocol != _currentProtocol)
-            {
-                ServicePointManager.SecurityProtocol = _currentProtocol;
             }
         }
     }
