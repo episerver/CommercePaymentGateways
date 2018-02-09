@@ -136,7 +136,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 customerAddress.RegionName = orderAddress.RegionName;
                 customerAddress.RegionCode = orderAddress.RegionCode;
 
+#pragma warning disable 618
                 if (customerContact.ContactAddresses == null || !StoreHelper.IsAddressInCollection(customerContact.ContactAddresses, customerAddress))
+#pragma warning restore 618
                 {
                     // If there is an address has the same name with new address, 
                     // rename new address by appending the index to the name.

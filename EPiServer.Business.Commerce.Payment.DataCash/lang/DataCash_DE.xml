@@ -15,6 +15,9 @@
           <PaymentNotAssociatedOrderGroup>Der Zahlung muss eine Bestellgruppe zugeordnet werden.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Der Zahlung muss ein Bestellformular zugeordnet werden.</PaymentNotAssociatedOrderForm>
           <CommitTranErrorCartNull>Der Einkaufswagen ist während der Verarbeitung der von DataCash zurückgeleiteten erfolgreichen Transaktion leer</CommitTranErrorCartNull>
+          <ProcessPaymentNullHttpContext>HttpContext.Current gleich null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Die Zahlung wurde abgeschlossen, der Bestand ist jedoch nicht ausreichend. Bitte wenden Sie sich an die Administratoren.</NotEnoughStockWarning>
+          <CartValidationWarning>Bei der Verarbeitung des Warenkorbs ist ein Fehler aufgetreten.</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

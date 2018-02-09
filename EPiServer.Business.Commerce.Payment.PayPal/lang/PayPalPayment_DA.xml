@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Forsendelsesadressen er blevet ændret, hvilket medfører en ændring af det samlede afgiftsbeløb. Bekræft venligst.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Der opstod en ukendt fejl under kald til PayPal API.</PayPalAPICallError>
           <PayPalRefundError>Der er intet at refundere.</PayPalRefundError>
+          <NotEnoughStockWarning>Betaling blev fuldført, men der er ikke tilstrækkelig lagermængde. Kontakt administratorer.</NotEnoughStockWarning>
+          <CartValidationWarning>Der opstod en fejl under behandling af vognen.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

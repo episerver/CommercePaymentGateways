@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Toimitusosoitetta on muutettu, ja tämän seurauksena yhteenlasketun veron määrä muuttuu. Vahvista muutos.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Tuntematon virhe kutsuttaessa PayPal-ohjelmointirajapintaa.</PayPalAPICallError>
           <PayPalRefundError>Ei hyvitettävää.</PayPalRefundError>
+          <NotEnoughStockWarning>Maksu suoritettu mutta ei tarpeeksi varastossa. Ota yhteyttä järjestelmänvalvojiin.</NotEnoughStockWarning>
+          <CartValidationWarning>Virhe ostoskoria käsiteltäessä.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>È stato modificato l'indirizzo di spedizione che causa la modifica del totale con tasse. Conferma.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Errore sconosciuto durante la chiamata API di PayPal.</PayPalAPICallError>
           <PayPalRefundError>Niente da rimborsare.</PayPalRefundError>
+          <NotEnoughStockWarning>Pagamento completato ma magazzino non sufficiente. Contatta gli amministratori.</NotEnoughStockWarning>
+          <CartValidationWarning>Errore durante l'elaborazione del carrello.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

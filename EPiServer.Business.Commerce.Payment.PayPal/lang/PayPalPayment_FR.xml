@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>L’adresse d’expédition a été modifiée et par conséquent le total des taxes également, veuillez confirmer.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Erreur inconnue lors de l’appel de l’API PayPal.</PayPalAPICallError>
           <PayPalRefundError>Rien à rembourser.</PayPalRefundError>
+          <NotEnoughStockWarning>Paiement effectué mais stock insuffisant. Veuillez contacter les administrateurs.</NotEnoughStockWarning>
+          <CartValidationWarning>Une erreur s’est produite lors du traitement du panier.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

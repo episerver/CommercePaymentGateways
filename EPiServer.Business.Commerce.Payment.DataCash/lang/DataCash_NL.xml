@@ -15,6 +15,9 @@
           <PaymentNotAssociatedOrderGroup>Betaling moet zijn gekoppeld aan een bestellingengroep.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Betaling moet zijn gekoppeld aan een bestelformulier.</PaymentNotAssociatedOrderForm>
           <CommitTranErrorCartNull>Winkelwagen is leeg vanwege het verwerken van geslaagde transactie die is terugverwezen vanaf DataCash</CommitTranErrorCartNull>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is nul.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Betaling voltooid maar niet genoeg voorraad. Neem contact op met de beheerders.</NotEnoughStockWarning>
+          <CartValidationWarning>Tijdens verwerken winkelwagen is er een fout opgetreden.</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

@@ -15,6 +15,9 @@
           <PaymentNotAssociatedOrderGroup>Betalingen skal være forbundet med en ordregruppe.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Betalingen skal være forbundet med en bestillingsformular.</PaymentNotAssociatedOrderForm>
           <CommitTranErrorCartNull>Vognen er null under behandling af en gennemført transaktion, der blev omdirigeret fra DataCash</CommitTranErrorCartNull>
+          <ProcessPaymentNullHttpContext>HttpContext.Current er null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Betaling blev fuldført, men der er ikke tilstrækkelig lagermængde. Kontakt administratorer.</NotEnoughStockWarning>
+          <CartValidationWarning>Der opstod en fejl under behandling af vognen.</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

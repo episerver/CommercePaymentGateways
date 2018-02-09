@@ -10,6 +10,9 @@
           <PaymentNotSpecified>Les informations de paiement ne sont pas définies.</PaymentNotSpecified>
           <PaymentNotAssociatedOrderGroup>Le paiement doit être associé à un groupe de commandes.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Le paiement doit être associé à un formulaire de commandes.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current possède la valeur nulle.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Paiement effectué mais stock insuffisant. Veuillez contacter les administrateurs.</NotEnoughStockWarning>
+          <CartValidationWarning>Une erreur s’est produite lors du traitement du panier.</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

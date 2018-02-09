@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Se ha cambiado la dirección de envío, por lo que también cambia el total de impuestos; por favor, confírmelo.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Error desconocido al llamar a la API de PayPal.</PayPalAPICallError>
           <PayPalRefundError>No hay nada que reembolsar.</PayPalRefundError>
+          <NotEnoughStockWarning>Pago realizado, pero no hay existencias suficientes. Póngase en contacto con los administradores.</NotEnoughStockWarning>
+          <CartValidationWarning>Se ha producido un error al procesar el carro.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

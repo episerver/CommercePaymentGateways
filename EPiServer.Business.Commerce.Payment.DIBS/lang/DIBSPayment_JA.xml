@@ -10,6 +10,9 @@
           <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
           <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current はNullです。</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不十分です。 管理者までご連絡ください。</NotEnoughStockWarning>
+          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

@@ -1,13 +1,14 @@
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.BaseControls;
+using System.Web.UI;
 
 namespace EPiServer.Business.Commerce.Payment.DataCash
 {
     /// <summary>
     ///	Implements User interface for generic gateway
     /// </summary>
-    public partial class PaymentMethod : BaseStoreUserControl, IPaymentOption
+    public partial class PaymentMethod : UserControl, IPaymentOption
     {
         /// <summary>
         /// Validates input data for the control. In case of Credit card pre authentication will be the best way to

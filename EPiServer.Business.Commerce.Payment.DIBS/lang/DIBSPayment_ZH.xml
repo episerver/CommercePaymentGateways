@@ -10,6 +10,9 @@
           <PaymentNotSpecified>付款信息未指定。</PaymentNotSpecified>
           <PaymentNotAssociatedOrderGroup>付款必须与订单组相关联。</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>付款必须与订单表单相关联。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current 为空。</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>支付已完成，但库存不足。 请与管理员联系。</NotEnoughStockWarning>
+          <CartValidationWarning>处理购物车时发生错误。</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

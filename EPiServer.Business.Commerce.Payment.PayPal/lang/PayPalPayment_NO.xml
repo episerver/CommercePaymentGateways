@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Leveringsadressen er endret, noe som fører til at avgiften endres. Vennligst bekreft dette.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Ukjent feil under kall til PayPal API.</PayPalAPICallError>
           <PayPalRefundError>Ingenting å refundere.</PayPalRefundError>
+          <NotEnoughStockWarning>Betalingen er fullført, men det er ikke nok på lager. Kontakt administratorer.</NotEnoughStockWarning>
+          <CartValidationWarning>Det oppstod en feil ved behandling av handlevognen.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

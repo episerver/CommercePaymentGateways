@@ -15,6 +15,9 @@
           <PaymentNotAssociatedOrderGroup>Pagamento deve essere associato a un gruppo di ordine.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Pagamento deve essere associato a un modulo di ordine.</PaymentNotAssociatedOrderForm>
           <CommitTranErrorCartNull>Carrello è zero mentre è in corso l'elaborazione di transazione corretta. Reindirizzamento da DataCash</CommitTranErrorCartNull>
+          <ProcessPaymentNullHttpContext>HttpContext.Current è zero</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Pagamento completato ma magazzino non sufficiente. Contatta gli amministratori.</NotEnoughStockWarning>
+          <CartValidationWarning>Errore durante l'elaborazione del carrello.</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

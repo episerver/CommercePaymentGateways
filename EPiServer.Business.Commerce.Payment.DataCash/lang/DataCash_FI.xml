@@ -15,6 +15,9 @@
           <PaymentNotAssociatedOrderGroup>Maksun on oltava liitetty tilausryhmään.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Maksun on oltava liitetty tilauslomakkeeseen.</PaymentNotAssociatedOrderForm>
           <CommitTranErrorCartNull>Ostoskorin arvo on tyhjä käsiteltäessä DataCash-palvelusta takaisin ohjattua onnistunutta tapahtumaa.</CommitTranErrorCartNull>
+          <ProcessPaymentNullHttpContext>HttpContext.Current on tyhjä arvo.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Maksu suoritettu mutta ei tarpeeksi varastossa. Ota yhteys järjestelmänvalvojiin.</NotEnoughStockWarning>
+          <CartValidationWarning>Virhe ostoskoria käsiteltäessä.</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

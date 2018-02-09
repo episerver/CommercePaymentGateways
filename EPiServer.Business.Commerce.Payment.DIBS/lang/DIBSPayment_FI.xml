@@ -10,6 +10,9 @@
           <PaymentNotSpecified>Maksutietoja ei ole määritetty.</PaymentNotSpecified>
           <PaymentNotAssociatedOrderGroup>Maksun on oltava liitetty tilausryhmään.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Maksun on oltava liitetty tilauslomakkeeseen.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current on tyhjä arvo.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Maksu suoritettu mutta ei tarpeeksi varastossa. Ota yhteys järjestelmänvalvojiin.</NotEnoughStockWarning>
+          <CartValidationWarning>Virhe ostoskoria käsiteltäessä.</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

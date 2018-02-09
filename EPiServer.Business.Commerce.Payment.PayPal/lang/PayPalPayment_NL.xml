@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Het verzendadres is veranderd waardoor de totale belasting is veranderd, bevestig dat a.u.b.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Onbekende fout tijdens oproepen van PayPal API.</PayPalAPICallError>
           <PayPalRefundError>Niets terug te betalen.</PayPalRefundError>
+          <NotEnoughStockWarning>Betaling voltooid maar niet genoeg voorraad. Neem contact op met de beheerders.</NotEnoughStockWarning>
+          <CartValidationWarning>Tijdens verwerken winkelwagen is er een fout opgetreden.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

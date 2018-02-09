@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>Die Versandadresse wurde geändert, wodurch sich der Gesamtsteuerbetrag geändert hat, bitte bestätigen.</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>Unbekannter Fehler beim Aufrufen der PayPal-API.</PayPalAPICallError>
           <PayPalRefundError>Nichts zu erstatten.</PayPalRefundError>
+          <NotEnoughStockWarning>Die Zahlung wurde abgeschlossen, der Bestand ist jedoch nicht ausreichend. Bitte wenden Sie sich an die Administratoren.</NotEnoughStockWarning>
+          <CartValidationWarning>Bei der Verarbeitung des Warenkorbs ist ein Fehler aufgetreten.</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

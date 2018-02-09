@@ -24,6 +24,8 @@
           <ProcessPaymentTaxValueChangedWarning>配送先住所が変更されたため税金合計額が変わりました。これを確認してください。</ProcessPaymentTaxValueChangedWarning>
           <PayPalAPICallError>PayPal API 呼び出し中の不明なエラー。</PayPalAPICallError>
           <PayPalRefundError>返金はありません。</PayPalRefundError>
+          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不十分です。 管理者までご連絡ください。</NotEnoughStockWarning>
+          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
         </PayPal>
       </Checkout>
     </Commerce>

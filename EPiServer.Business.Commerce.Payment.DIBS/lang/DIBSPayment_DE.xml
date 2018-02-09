@@ -10,6 +10,9 @@
           <PaymentNotSpecified>Keine Zahlungsinformationen angegeben.</PaymentNotSpecified>
           <PaymentNotAssociatedOrderGroup>Der Zahlung muss eine Bestellgruppe zugeordnet werden.</PaymentNotAssociatedOrderGroup>
           <PaymentNotAssociatedOrderForm>Der Zahlung muss ein Bestellformular zugeordnet werden.</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current gleich null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>Die Zahlung wurde abgeschlossen, der Bestand ist jedoch nicht ausreichend. Bitte wenden Sie sich an die Administratoren.</NotEnoughStockWarning>
+          <CartValidationWarning>Bei der Verarbeitung des Warenkorbs ist ein Fehler aufgetreten.</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

@@ -3,13 +3,14 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website;
 using Mediachase.Commerce.Website.BaseControls;
+using System.Web.UI;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
 {
     /// <summary>
     ///	Implements User interface for generic gateway
     /// </summary>
-    public partial class PaymentMethod : BaseStoreUserControl, IPaymentOption
+    public partial class PaymentMethod : UserControl, IPaymentOption
     {
         private PayPalConfiguration _payPalConfiguration;
 
