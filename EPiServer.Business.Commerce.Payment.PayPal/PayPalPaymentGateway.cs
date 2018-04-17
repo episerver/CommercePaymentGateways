@@ -31,7 +31,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private readonly IFeatureSwitch _featureSwitch;
         private readonly IInventoryProcessor _inventoryProcessor;
         private readonly IOrderNumberGenerator _orderNumberGenerator;
-        private readonly ITaxCalculator _taxCalculator;
+        private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly PayPalAPIHelper _payPalAPIHelper;
 
         private string _notifyUrl = string.Empty;
@@ -42,8 +42,27 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                   ServiceLocator.Current.GetInstance<IInventoryProcessor>(),
                   ServiceLocator.Current.GetInstance<IOrderNumberGenerator>(),
                   ServiceLocator.Current.GetInstance<IOrderRepository>(),
-                  ServiceLocator.Current.GetInstance<ITaxCalculator>(),
+                  ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
                   new PayPalAPIHelper())
+        {
+        }
+
+        [Obsolete("This constructor is no longer used, use constructor with IOrderGroupCalculator instead. Will remain at least until November 2018.")]
+        public PayPalPaymentGateway(
+            IFeatureSwitch featureSwitch,
+            IInventoryProcessor inventoryProcessor,
+            IOrderNumberGenerator orderNumberGenerator,
+            IOrderRepository orderRepository,
+            ITaxCalculator taxCalculator,
+            PayPalAPIHelper paypalAPIHelper)
+            :this(
+                 featureSwitch,
+                 inventoryProcessor,
+                 orderNumberGenerator,
+                 orderRepository,
+                 ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
+                 paypalAPIHelper
+                 )
         {
         }
 
@@ -52,14 +71,14 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             IInventoryProcessor inventoryProcessor,
             IOrderNumberGenerator orderNumberGenerator,
             IOrderRepository orderRepository,
-            ITaxCalculator taxCalculator,
+            IOrderGroupCalculator orderGroupCalculator,
             PayPalAPIHelper paypalAPIHelper)
         {
             _featureSwitch = featureSwitch;
             _inventoryProcessor = inventoryProcessor;
             _orderNumberGenerator = orderNumberGenerator;
             _orderRepository = orderRepository;
-            _taxCalculator = taxCalculator;
+            _orderGroupCalculator = orderGroupCalculator;
             _payPalAPIHelper = paypalAPIHelper;
 
             _paymentMethodConfiguration = new PayPalConfiguration(Settings);
@@ -228,7 +247,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 if (payPalShippingAddress != null && AddressHandling.IsAddressChanged(cart.GetFirstShipment().ShippingAddress, payPalShippingAddress))
                 {
                     //when address was changed on PayPal site, it might cause changing tax value changed and changing order value also.
-                    var taxValueBefore = _taxCalculator.GetTaxTotal(cart, cart.Market, cart.Currency);
+                    var taxValueBefore = cart.GetTaxTotal(_orderGroupCalculator);
 
                     var shippingAddress = orderGroup.CreateOrderAddress("address");
 
@@ -240,7 +259,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
                     cart.GetFirstShipment().ShippingAddress = shippingAddress;
 
-                    var taxValueAfter = _taxCalculator.GetTaxTotal(cart, cart.Market, cart.Currency);
+                    var taxValueAfter = cart.GetTaxTotal(_orderGroupCalculator);
                     if (taxValueBefore != taxValueAfter)
                     {
                         _orderRepository.Save(cart); // Saving cart to submit order address changed.

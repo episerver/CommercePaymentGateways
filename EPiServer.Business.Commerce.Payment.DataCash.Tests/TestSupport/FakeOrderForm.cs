@@ -17,6 +17,8 @@ namespace PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
             get { return _orderFormId; }
         }
 
+        public FakeOrderGroup Parent { get; set; }
+
         public decimal AuthorizedPaymentTotal { get; set; }
 
         public decimal CapturedPaymentTotal { get; set; }
@@ -38,6 +40,8 @@ namespace PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
         }
 
         public ICollection<IPayment> Payments { get; set; }
+
+        public bool PricesIncludeTax => Parent?.PricesIncludeTax ?? false;
 
         public Hashtable Properties { get; private set; }
         

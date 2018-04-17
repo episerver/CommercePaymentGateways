@@ -95,8 +95,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             var itemPrice = 100m;
             var quantiy = 1;
             var taxAmount = 20m;
-            var shippingCost = 10m;
-            var orderTotal = itemPrice * quantiy + taxAmount + shippingCost;
+            var shippingSubTotal = 10m;
+            var orderTotal = itemPrice * quantiy + taxAmount + shippingSubTotal;
 
             var factory = new FakeOrderGroupBuilderFactory();
             var orderForm = factory.CreateOrderForm();
@@ -116,10 +116,12 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             var orderGroup = new FakeOrderGroup();
             orderGroup.Forms.Add(orderForm);
 
-            _taxCalculatorMock.Setup(s => s.GetTaxTotal(It.IsAny<IOrderForm>(), It.IsAny<IMarket>(), Currency.USD)).Returns(new Money(taxAmount, Currency.USD));
-            _shippingCalculatorMock.Setup(s => s.GetShippingCost(It.IsAny<IOrderForm>(), It.IsAny<IMarket>(), Currency.USD)).Returns(new Money(shippingCost, Currency.USD));
+            _orderGroupCalculatorMock.Setup(s => s.GetTaxTotal(It.IsAny<IOrderGroup>())).Returns(new Money(taxAmount, Currency.USD));
+            _orderGroupCalculatorMock.Setup(s => s.GetShippingSubTotal(It.IsAny<IOrderGroup>())).Returns(new Money(shippingSubTotal, Currency.USD));
+
             var lineItemCalculatorMock = new Mock<ILineItemCalculator>();
             lineItemCalculatorMock.Setup(s => s.GetExtendedPrice(It.IsAny<ILineItem>(), It.IsAny<Currency>())).Returns(new Money(itemPrice, Currency.USD));
+
             var serviceLocatorMock = new Mock<IServiceLocator>();
             serviceLocatorMock.Setup(s => s.GetInstance<ILineItemCalculator>()).Returns(lineItemCalculatorMock.Object);
             ServiceLocator.SetLocator(serviceLocatorMock.Object);
@@ -130,29 +132,27 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             Assert.Equal(orderNumber, result.InvoiceID);
             Assert.Equal(notifyUrl, result.NotifyURL);
             Assert.Equal(orderTotal.ToString("0.00", CultureInfo.InvariantCulture), result.OrderTotal.value);
-            Assert.Equal(0m.ToString("0.00", CultureInfo.InvariantCulture), result.ShippingTotal.value);
+            Assert.Equal(shippingSubTotal.ToString("0.00", CultureInfo.InvariantCulture), result.ShippingTotal.value);
             Assert.Equal(0m.ToString("0.00", CultureInfo.InvariantCulture), result.HandlingTotal.value);
             Assert.Equal(taxAmount.ToString("0.00", CultureInfo.InvariantCulture), result.TaxTotal.value);
-            Assert.Equal((itemPrice * quantiy + shippingCost).ToString("0.00", CultureInfo.InvariantCulture), result.ItemTotal.value);
+            Assert.Equal((itemPrice * quantiy).ToString("0.00", CultureInfo.InvariantCulture), result.ItemTotal.value);
             Assert.Equal((itemPrice * quantiy).ToString("0.00", CultureInfo.InvariantCulture), result.PaymentDetailsItem.First().Amount.value);
             Assert.Equal(itemCode, result.PaymentDetailsItem.First().Number);
             Assert.Equal(quantiy, result.PaymentDetailsItem.First().Quantity);
             Assert.Equal(itemName, result.PaymentDetailsItem.First().Name);
         }
 
-        private Mock<ITaxCalculator> _taxCalculatorMock;
-        private Mock<IShippingCalculator> _shippingCalculatorMock;
+        private Mock<IOrderGroupCalculator> _orderGroupCalculatorMock;
         private Mock<LocalizationService> _localizationServiceMock;
 
         private PayPalAPIHelper _subject;
 
         public PayPalAPIHelperTest()
         {
-            _taxCalculatorMock = new Mock<ITaxCalculator>();
-            _shippingCalculatorMock = new Mock<IShippingCalculator>();
+            _orderGroupCalculatorMock = new Mock<IOrderGroupCalculator>();
             _localizationServiceMock = new Mock<LocalizationService>(new object[] { null });
 
-            _subject = new PayPalAPIHelper(_shippingCalculatorMock.Object, _taxCalculatorMock.Object, _localizationServiceMock.Object, new PayPalCurrencies(new SiteContext()));
+            _subject = new PayPalAPIHelper(_orderGroupCalculatorMock.Object, _localizationServiceMock.Object, new PayPalCurrencies(new SiteContext()));
         }
 
         class PayPalConfigurationForTest : PayPalConfiguration

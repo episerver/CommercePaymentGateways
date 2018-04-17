@@ -26,6 +26,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport
 
         public bool IsGift { get; set; }
 
+        public int? TaxCategoryId { get; set; }
+
         public Hashtable Properties { get; private set; }
 
         public FakeLineItem()

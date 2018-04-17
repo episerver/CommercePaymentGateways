@@ -1,0 +1,6 @@
+﻿@model EPiServer.Commerce.Order.IPaymentMethod
+@Html.HiddenFor(model => model.SystemKeyword)     
+<div id='PaymentDIBS'>
+    <img src="https://cdn.dibspayment.com/logo/checkout/combo/horiz/DIBS_checkout_kombo_horizontal_14.png" />
+    <span class="text-error">@ViewBag.Message</span>
+</div>

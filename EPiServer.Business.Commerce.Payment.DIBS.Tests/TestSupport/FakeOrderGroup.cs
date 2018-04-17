@@ -19,7 +19,14 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
 
         public ICollection<IOrderForm> Forms { get; set; }
 
+        [Obsolete("This property is no longer used. Use IMarketService to get the market from MarketId instead. Will remain at least until May 2019.")]
         public IMarket Market { get; set; }
+
+        public MarketId MarketId { get; set; }
+
+        public string MarketName { get; set; }
+
+        public bool PricesIncludeTax { get; set; }
 
         public ICollection<IOrderNote> Notes { get; }
 
@@ -40,7 +47,10 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
         public FakeOrderGroup()
         {
             Forms = new List<IOrderForm>();
-            Market = new MarketImpl(MarketId.Default);
+            var market = new MarketImpl(MarketId.Default);
+            MarketId = market.MarketId;
+            MarketName = market.MarketName;
+            PricesIncludeTax = market.PricesIncludeTax;
             Currency = new Currency(Currency.USD);
             OrderLink = new OrderReference(++_counter, "Default", _customerId, typeof(Cart));
             Properties = new Hashtable();

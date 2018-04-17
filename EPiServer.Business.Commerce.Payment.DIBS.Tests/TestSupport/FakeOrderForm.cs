@@ -17,6 +17,8 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
             get { return _orderFormId; }
         }
 
+        public FakeOrderGroup Parent { get; set; }
+
         public decimal AuthorizedPaymentTotal { get; set; }
 
         public decimal CapturedPaymentTotal { get; set; }
@@ -24,6 +26,8 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
         public decimal HandlingTotal { get; set; }
 
         public string Name { get; set; }
+
+        public bool PricesIncludeTax => Parent?.PricesIncludeTax ?? false;
 
         public ICollection<IShipment> Shipments { get; set; }
 

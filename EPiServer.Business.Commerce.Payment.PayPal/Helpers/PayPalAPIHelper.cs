@@ -15,26 +15,34 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 {
     public class PayPalAPIHelper
     {
-        private readonly ITaxCalculator _taxCalculator;
-        private readonly IShippingCalculator _shippingCalculator;
+        private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly LocalizationService _localizationService;
         private readonly PayPalCurrencies _paypalCurrencies;
 
         public PayPalAPIHelper() : this(
-            ServiceLocator.Current.GetInstance<IShippingCalculator>(),
-            ServiceLocator.Current.GetInstance<ITaxCalculator>(),
+            ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
             ServiceLocator.Current.GetInstance<LocalizationService>(),
             new PayPalCurrencies())
         { }
 
+        [Obsolete("This constructor is no longer used, use constructor with IOrderGroupCalculator instead. Will remain at least until November 2018.")]
         public PayPalAPIHelper(
             IShippingCalculator shippingCalculator,
             ITaxCalculator taxCalculator,
             LocalizationService localizationService,
             PayPalCurrencies paypalCurrencies)
+            : this (ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
+                  localizationService,
+                  paypalCurrencies)
         {
-            _shippingCalculator = shippingCalculator;
-            _taxCalculator = taxCalculator;
+        }
+
+        public PayPalAPIHelper(
+            IOrderGroupCalculator orderGroupCalculator,
+            LocalizationService localizationService,
+            PayPalCurrencies paypalCurrencies)
+        {
+            _orderGroupCalculator = orderGroupCalculator;
             _localizationService = localizationService;
             _paypalCurrencies = paypalCurrencies;
         }
@@ -134,9 +142,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
             var currency = orderGroup.Currency;
             var totalOrder = currency.Round(payment.Amount);
-            var totalShipping = currency.Round(_shippingCalculator.GetShippingCost(orderGroup, orderGroup.Market, currency).Amount);
+            var totalShipping = currency.Round(orderGroup.GetShippingTotal(_orderGroupCalculator).Amount);
             var totalHandling = currency.Round(orderForm.HandlingTotal);
-            var totalTax = currency.Round(_taxCalculator.GetTaxTotal(orderForm, orderGroup.Market, currency).Amount);
+            var totalTax = currency.Round(orderGroup.GetTaxTotal(_orderGroupCalculator).Amount);
             var lineItemTotal = 0m;
 
             var paymentDetailItems = new List<PaymentDetailsItemType>();
