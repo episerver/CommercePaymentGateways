@@ -4,20 +4,20 @@
     <Commerce>
       <Checkout>
         <DataCash>
+          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>注文グループを指定してから、お支払い手続きを行ってください。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>注文フォームを指定してから、お支払い手続きを行ってください。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is null.</ProcessPaymentNullHttpContext>
+          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不足しています。 管理者までご連絡ください。</NotEnoughStockWarning>
+          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
           <CreditCardEmpty>お支払いの詳細を入力してください。</CreditCardEmpty>
-          <PaymentRejectedBy3rdMan>支払いの要求は、3rdMan サービスによって拒否されました。</PaymentRejectedBy3rdMan>
+          <CommitTranErrorCartNull>Cart is null while processing successful transaction redirected back from DataCash</CommitTranErrorCartNull>
+          <PaymentRejectedBy3rdMan>支払いの要求は、第三者サービスによって拒否されました。</PaymentRejectedBy3rdMan>
           <PaymentDetail>お支払いの詳細</PaymentDetail>
           <CardType>カードの種類:</CardType>
           <CardNumber>カード番号:</CardNumber>
           <ExpiryDate>有効期限:</ExpiryDate>
           <GenericError>DataCash でチェック アウトする際にエラーが発生しました。 お客様の情報を確認してください。</GenericError>
-          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
-          <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
-          <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
-          <CommitTranErrorCartNull>DataCash からリダイレクトされた成功したトランザクションの処理中、カートは null です</CommitTranErrorCartNull>
-          <ProcessPaymentNullHttpContext>HttpContext.Current はNullです。</ProcessPaymentNullHttpContext>
-          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不十分です。 管理者までご連絡ください。</NotEnoughStockWarning>
-          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
         </DataCash>
       </Checkout>
     </Commerce>

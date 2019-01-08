@@ -10,7 +10,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests
         {
             var result = DocumentHelpers.GetResponseInfo(null, "SampleKey");
 
-            Assert.Equal(null, result);
+            Assert.Null(result);
         }
 
         [InlineData("Response.sampleKey", "sample value")]
@@ -33,7 +33,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests
         {
             var result = DocumentHelpers.IsSuccessful(null);
 
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests
 
             var result = DocumentHelpers.IsSuccessful(fakeResponseDoc);
 
-            Assert.Equal(true, result);
+            Assert.True(result);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests
 
             var result = DocumentHelpers.IsSuccessful(fakeResponseDoc);
 
-            Assert.Equal(false, result);
+            Assert.False(result);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash.Tests
         {
             var result = DocumentHelpers.GetErrorMessage(null);
 
-            Assert.Equal(null, result);
+            Assert.Null(result);
         }
         
         [InlineData("Response.information", "information", "information")]

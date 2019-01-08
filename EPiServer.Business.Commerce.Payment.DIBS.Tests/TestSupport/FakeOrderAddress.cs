@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
 {
-    class FakeOrderAddress : IOrderAddress
+    internal class FakeOrderAddress : IOrderAddress
     {
         public string Id { get; set; }
 

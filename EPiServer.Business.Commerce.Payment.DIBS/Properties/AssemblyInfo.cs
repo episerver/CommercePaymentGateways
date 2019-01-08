@@ -22,5 +22,3 @@ using System;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("a048e1f4-332a-4462-9897-c2d21c8de8f5")]
 [assembly: CLSCompliant(true)]
-
-[assembly: AssemblyVersion("10.5.0.0")]

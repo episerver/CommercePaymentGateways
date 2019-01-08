@@ -6,6 +6,10 @@ using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,8 +19,8 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
     {
         private static Injected<UrlResolver> _urlResolver = default(Injected<UrlResolver>);
         private static Injected<LocalizationService> _localizationService = default(Injected<LocalizationService>);
-        private static Injected<IContentRepository> _catalogContentLoader = default(Injected<IContentRepository>);
         private static Injected<ReferenceConverter> _referenceConverter = default(Injected<ReferenceConverter>);
+        private static Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
 
         /// <summary>
         /// Gets display name with current language.
@@ -27,7 +31,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         public static string GetDisplayNameOfCurrentLanguage(ILineItem lineItem, int maxSize)
         {
             // if the entry is null (product is deleted), return item display name
-            var entryContent = _catalogContentLoader.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(lineItem.Code));
+            var entryContent = _contentLoader.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(lineItem.Code));
             var displayName = entryContent != null ? entryContent.DisplayName : lineItem.DisplayName;
             return StripPreviewText(displayName, maxSize <= 0 ? 100 : maxSize);
         }
@@ -54,16 +58,16 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         /// <returns>The friendly url.</returns>
         public static string GetUrlFromStartPageReferenceProperty(string propertyName)
         {
-            var startPageData = DataFactory.Instance.GetPage(ContentReference.StartPage);
+            var startPageData = _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
             if (startPageData == null)
             {
                 return _urlResolver.Service.GetUrl(ContentReference.StartPage);
             }
 
-            var property = startPageData.Property[propertyName];
-            if (property != null && !property.IsNull && property.Value is ContentReference)
+            var contentLink = startPageData.Property[propertyName]?.Value as ContentReference;
+            if (!ContentReference.IsNullOrEmpty(contentLink))
             {
-                return _urlResolver.Service.GetUrl((ContentReference)property.Value);
+                return _urlResolver.Service.GetUrl(contentLink);
             }
             return _urlResolver.Service.GetUrl(ContentReference.StartPage);
         }
@@ -71,88 +75,50 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         /// <summary>
         /// Calculates the amount, to return the smallest unit of an amount in the selected currency.
         /// </summary>
-        /// <remarks>http://tech.dibspayment.com/capturecgi</remarks>
         /// <param name="currency">Selected currency</param>
         /// <param name="amount">Amount in the selected currency</param>
-        /// <returns>The string represents the smallest unit of an amount in the selected currency.</returns>
-        public static string GetAmount(Currency currency, decimal amount)
+        /// <returns>The smallest unit of an amount in the selected currency.</returns>
+        public static decimal GetAmount(Currency currency, decimal amount)
         {
             var delta = currency.Equals(Currency.JPY) ? 1 : 100;
-            return (amount * delta).ToString("#");
-        }
-
-        /// <summary>
-        /// Gets the Md5 key refund.
-        /// </summary>
-        /// <param name="paymentConfiguration">The DIBS payment configuration.</param>
-        /// <param name="merchant">The merchant.</param>
-        /// <param name="orderId">The order id.</param>
-        /// <param name="transact">The transact.</param>
-        /// <param name="amount">The amount.</param>
-        public static string GetMD5RefundKey(DIBSConfiguration paymentConfiguration, string merchant, string orderId, string transact, string amount)
-        {
-            var hashString = $"merchant={merchant}&orderid={orderId}&transact={transact}&amount={amount}";
-            return GetMD5Key(paymentConfiguration, hashString);
+            return Math.Round(amount * delta, 0);
         }
 
         /// <summary>
         /// Gets the MD5 key used to send to DIBS in authorization step.
         /// </summary>
         /// <param name="paymentConfiguration">The DIBS payment configuration.</param>
-        /// <param name="merchant">The merchant.</param>
-        /// <param name="orderId">The order id.</param>
-        /// <param name="currency">The currency.</param>
-        /// <param name="amount">The amount.</param>
-        public static string GetMD5RequestKey(DIBSConfiguration paymentConfiguration, string merchant, string orderId, Currency currency, string amount)
+        /// <param name="keyPairs">The key pairs.</param>
+        public static string GetMACRequest(DIBSConfiguration paymentConfiguration, Dictionary<string, object> keyPairs)
         {
-            var hashString = $"merchant={merchant}&orderid={orderId}&currency={currency.CurrencyCode}&amount={amount}";
-            return GetMD5Key(paymentConfiguration, hashString);
+            var messageString = string.Join("&", keyPairs.Select(kp => $"{kp.Key}={kp.Value}"));
+
+            return GetHMACCalculation(paymentConfiguration, messageString);
         }
 
-        /// <summary>
-        /// Gets the key used to verify response from DIBS when payment is approved.
-        /// </summary>
-        /// <param name="paymentConfiguration">The DIBS payment configuration.</param>
-        /// <param name="transact">The transact.</param>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currency">The currency.</param>
-        public static string GetMD5ResponseKey(DIBSConfiguration paymentConfiguration, string transact, string amount, Currency currency)
-        {
-            var hashString = $"transact={transact}&amount={amount}&currency={DIBSCurrencies.GetCurrencyCode(currency)}";
-            return GetMD5Key(paymentConfiguration, hashString);
-        }
-        
         /// <summary>
         /// Translate with languageKey under /Commerce/Checkout/DIBS/ in lang.xml
         /// </summary>
         /// <param name="languageKey">The language key.</param>
-        public static string Translate(string languageKey)
+        public static string Translate(string languageKey) => _localizationService.Service.GetString("/Commerce/Checkout/DIBS/" + languageKey);
+
+        private static string GetHMACCalculation(DIBSConfiguration paymentConfiguration, string messageString)
         {
-            return _localizationService.Service.GetString("/Commerce/Checkout/DIBS/" + languageKey);
-        }
+            // reference: https://tech.dibspayment.com/batch/d2integratedpwapihmac
 
-        private static string GetMD5Key(DIBSConfiguration paymentConfiguration, string hashString)
-        {
-            var x = new MD5CryptoServiceProvider();
-            var bs = Encoding.UTF8.GetBytes(paymentConfiguration.MD5Key1 + hashString);
-            bs = x.ComputeHash(bs);
-            var stringBuilder = new StringBuilder();
-            foreach (byte b in bs)
+            //Decoding the secret Hex encoded key and getting the bytes for MAC calculation
+            var hmacKeyBytes = new byte[paymentConfiguration.HMACKey.Length / 2];
+            for (var i = 0; i < hmacKeyBytes.Length; i++)
             {
-                stringBuilder.Append(b.ToString("x2").ToLower());
+                hmacKeyBytes[i] = byte.Parse(paymentConfiguration.HMACKey.Substring(i * 2, 2), NumberStyles.HexNumber);
             }
-            var firstHash = stringBuilder.ToString();
 
-            var secondHash = paymentConfiguration.MD5Key2 + firstHash;
-            var bs2 = Encoding.UTF8.GetBytes(secondHash);
-            bs2 = x.ComputeHash(bs2);
+            var msgBytes = Encoding.UTF8.GetBytes(messageString);
 
-            stringBuilder = new StringBuilder();
-            foreach (byte b in bs2)
-            {
-                stringBuilder.Append(b.ToString("x2").ToLower());
-            }
-            return stringBuilder.ToString();
+            //Calculate MAC key
+            var hash = new HMACSHA256(hmacKeyBytes);
+            var macBytes = hash.ComputeHash(msgBytes);
+            return BitConverter.ToString(macBytes).Replace("-", string.Empty).ToLower();
         }
 
         /// <summary>

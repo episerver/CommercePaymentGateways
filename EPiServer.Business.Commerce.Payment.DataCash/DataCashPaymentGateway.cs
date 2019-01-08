@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using EPiServer.Web;
 
 namespace EPiServer.Business.Commerce.Payment.DataCash
 {
@@ -27,8 +28,8 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         private readonly LocalizationService _localizationService;
         private static readonly ILogger _logger = LogManager.GetLogger(typeof(DataCashPaymentGateway));
 
-        private DataCashConfiguration _dataCashConfiguration;
-        private RequestDocumentCreation _requestDocumentCreation;
+        private readonly DataCashConfiguration _dataCashConfiguration;
+        private readonly RequestDocumentCreation _requestDocumentCreation;
 
         public const string DataCashReferencePropertyName = "DataCashReference";
         public const string DataCashAuthenticateCodePropertyName = "DataCashAuthenticateCode";
@@ -181,7 +182,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
 
                 if (!cartCompleted)
                 {
-                    return UriSupport.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
+                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
                 }
 
                 payment.Properties[DataCashAuthenticateCodePropertyName] = authenticateCode;
@@ -199,11 +200,11 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
 
                 var email = payment.BillingAddress.Email;
 
-                acceptUrl = UriSupport.AddQueryString(acceptUrl, "success", "true");
-                acceptUrl = UriSupport.AddQueryString(acceptUrl, "contactId", purchaseOrder.CustomerId.ToString());
-                acceptUrl = UriSupport.AddQueryString(acceptUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
-                acceptUrl = UriSupport.AddQueryString(acceptUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
-                acceptUrl = UriSupport.AddQueryString(acceptUrl, "email", email);
+                acceptUrl = UriUtil.AddQueryString(acceptUrl, "success", "true");
+                acceptUrl = UriUtil.AddQueryString(acceptUrl, "contactId", purchaseOrder.CustomerId.ToString());
+                acceptUrl = UriUtil.AddQueryString(acceptUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
+                acceptUrl = UriUtil.AddQueryString(acceptUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
+                acceptUrl = UriUtil.AddQueryString(acceptUrl, "email", email);
             }
             return acceptUrl;
         }
@@ -222,7 +223,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
             }
 
             _logger.Error($"DataCash transaction failed [{errorMessage}].");
-            return UriSupport.AddQueryString(cancelUrl, "message", errorMessage);
+            return UriUtil.AddQueryString(cancelUrl, "message", errorMessage);
         }
 
         /// <summary>
@@ -295,8 +296,8 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
             payment.Properties[DataCashMerchantReferencePropertyName] = merchRef; // A unique reference number for each transaction (Min 6, max 30 alphanumeric character)
 
             var notifyUrl = UriSupport.AbsoluteUrlBySettings(Utilities.GetUrlFromStartPageReferenceProperty("DataCashPaymentPage"));
-            notifyUrl = UriSupport.AddQueryString(notifyUrl, "accept", "true");
-            notifyUrl = UriSupport.AddQueryString(notifyUrl, "hash", Utilities.GetMD5Key(merchRef + "accepted"));
+            notifyUrl = UriUtil.AddQueryString(notifyUrl, "accept", "true");
+            notifyUrl = UriUtil.AddQueryString(notifyUrl, "hash", Utilities.GetSHA256Key(merchRef + "accepted"));
 
             var requestDoc = _requestDocumentCreation.CreateDocumentForPaymentCheckout(cart, payment, notifyUrl);
 

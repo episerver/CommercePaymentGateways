@@ -18,7 +18,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         /// Post data.
         /// </summary>
         public Dictionary<string, object> PostData { get; set; }
-        
+
         public RedirectAndPostActionResult(string url, Dictionary<string, object> postData)
         {
             Url = url;
@@ -37,14 +37,15 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             var formId = "__formRequest";
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append(string.Format("<form id=\"{0}\" name=\"{0}\" action=\"{1}\" method=\"POST\">", formId, url));
-            foreach (var item in postData)
-            {
-                stringBuilder.Append(string.Format("<input type=\"hidden\" name=\"{0}\" value=\"{1}\"/>", item.Key, item.Value));
-            }
-            stringBuilder.Append("</form>");
+            stringBuilder.Append($"<form id=\"{formId}\" name=\"{formId}\" action=\"{url}\" method=\"POST\">");
 
-            stringBuilder.Append(string.Format("<script language=\"javascript\">document.{0}.submit();</script>", formId));
+            foreach (var keyPair in postData)
+            {
+                stringBuilder.Append($"<input type=\"hidden\" name=\"{keyPair.Key}\" value=\"{keyPair.Value}\"/>");
+            }
+
+            stringBuilder.Append("</form>");
+            stringBuilder.Append($"<script language=\"javascript\">document.{formId}.submit();</script>");
 
             return stringBuilder.ToString();
         }

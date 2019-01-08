@@ -16,7 +16,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
     {
         private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly ILineItemCalculator _lineItemCalculator;
-        private DataCashConfiguration _dataCashConfiguration;
+        private readonly DataCashConfiguration _dataCashConfiguration;
 
         public RequestDocumentCreation() : this (ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(), ServiceLocator.Current.GetInstance<ILineItemCalculator>(), new DataCashConfiguration())
         {

@@ -19,7 +19,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             "SEK", "CHF", "TWD", "THB", "USD"
         };
 
-        private SiteContext _siteContext;
+        private readonly SiteContext _siteContext;
 
         public PayPalCurrencies() : this(SiteContext.Current)
         { }

@@ -2,6 +2,7 @@
 using EPiServer.Editor;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
@@ -17,8 +18,9 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
     {
         private readonly IOrderRepository _orderRepository;
         private readonly DIBSRequestHelper _dibsRequestHelper;
+        private const string PaymentWindowEntryPoint = "https://sat1.dibspayment.com/dibspaymentwindow/entrypoint";
 
-        public DIBSPaymentController() : this (ServiceLocator.Current.GetInstance<IOrderRepository>())
+        public DIBSPaymentController() : this(ServiceLocator.Current.GetInstance<IOrderRepository>())
         { }
 
         public DIBSPaymentController(IOrderRepository orderRepository)
@@ -52,19 +54,19 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             if (transactionRequest.IsProcessable())
             {
                 var cancelUrl = Utilities.GetUrlFromStartPageReferenceProperty("CheckoutPage"); // get link to Checkout page
-                cancelUrl = UriSupport.AddQueryString(cancelUrl, "success", "false");
-                cancelUrl = UriSupport.AddQueryString(cancelUrl, "paymentmethod", "dibs");
+                cancelUrl = UriUtil.AddQueryString(cancelUrl, "success", "false");
+                cancelUrl = UriUtil.AddQueryString(cancelUrl, "paymentmethod", "dibs");
                 var gateway = new DIBSPaymentGateway();
 
                 var redirectUrl = cancelUrl;
-                // Process successful transaction                        
+
                 if (transactionRequest.IsSuccessful())
                 {
                     var acceptUrl = Utilities.GetUrlFromStartPageReferenceProperty("DIBSPaymentLandingPage");
-                    redirectUrl = gateway.ProcessSuccessfulTransaction(currentCart, payment, transactionRequest.Transact, transactionRequest.OrderId, acceptUrl, cancelUrl);
+                    redirectUrl = gateway.ProcessSuccessfulTransaction
+                        (currentCart, payment, transactionRequest.TransactionId, transactionRequest.OrderId, acceptUrl, cancelUrl);
                 }
-                // Process unsuccessful transaction
-                else if (transactionRequest.IsUnsuccessful())
+                else
                 {
                     TempData["Message"] = Utilities.Translate("CancelMessage");
                     redirectUrl = gateway.ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("CancelMessage"));
@@ -74,9 +76,9 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             }
 
             var notifyUrl = UriSupport.AbsoluteUrlBySettings(Utilities.GetUrlFromStartPageReferenceProperty("DIBSPaymentPage"));
-
             var requestPaymentData = _dibsRequestHelper.CreateRequestPaymentData(payment, currentCart, notifyUrl);
-            return new RedirectAndPostActionResult(_dibsRequestHelper.DIBSConfiguration.ProcessingUrl, requestPaymentData);
+
+            return new RedirectAndPostActionResult(PaymentWindowEntryPoint, requestPaymentData);
         }
 
         private void InitializeReponse()
@@ -86,6 +88,5 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             Response.Cache.SetNoStore();
             Response.AppendHeader("Pragma", "no-cache");
         }
-
     }
 }

@@ -44,7 +44,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             var payment = type == null ? orderGroup.CreatePayment(_orderGroupFactory) : orderGroup.CreatePayment(_orderGroupFactory, type);
 
             payment.PaymentMethodId = _paymentMethod.PaymentMethodId;
-            payment.PaymentMethodName = _paymentMethod.Name;
+            payment.PaymentMethodName = _paymentMethod.SystemKeyword;
             payment.Amount = amount;
             payment.Status = PaymentStatus.Pending.ToString();
 

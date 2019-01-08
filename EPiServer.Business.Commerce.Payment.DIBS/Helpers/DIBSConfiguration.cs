@@ -15,8 +15,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         public const string UserParameter = "MerchantID";
         public const string PasswordParameter = "Password";
         public const string ProcessingUrlParamter = "ProcessingUrl";
-        public const string MD5Key1Parameter = "MD5Key1";
-        public const string MD5Key2Parameter = "MD5Key2";
+        public const string HMACKeyParameter = "HMACKey";
 
         public const string DIBSSystemName = "DIBS";
 
@@ -44,14 +43,9 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         public string ProcessingUrl { get; protected set; }
 
         /// <summary>
-        /// Gets the MD5 key 1 setting.
+        /// Gets the HMAC key setting.
         /// </summary>
-        public string MD5Key1 { get; protected set; }
-
-        /// <summary>
-        /// Gets the MD5 key 2 setting.
-        /// </summary>
-        public string MD5Key2 { get; protected set; }
+        public string HMACKey { get; protected set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="DIBSConfiguration"/>.
@@ -114,14 +108,12 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
                 Merchant = GetParameterValue(UserParameter);
                 Password = GetParameterValue(PasswordParameter);
                 ProcessingUrl = GetParameterValue(ProcessingUrlParamter);
-                MD5Key1 = GetParameterValue(MD5Key1Parameter);
-                MD5Key2 = GetParameterValue(MD5Key2Parameter);
+                HMACKey = GetParameterValue(HMACKeyParameter);
             }
         }
         private string GetParameterValue(string parameterName)
         {
-            string parameterValue;
-            return _settings.TryGetValue(parameterName, out parameterValue) ? parameterValue : string.Empty;
+            return _settings.TryGetValue(parameterName, out var parameterValue) ? parameterValue : string.Empty;
         }
 
         private Guid GetPaymentMethodId()

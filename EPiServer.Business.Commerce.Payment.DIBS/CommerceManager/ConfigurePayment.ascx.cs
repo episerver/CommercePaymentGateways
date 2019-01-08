@@ -1,7 +1,6 @@
 ﻿using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Web.Console.Interfaces;
 using System;
-using System.Data;
 using System.Web.UI.WebControls;
 
 namespace EPiServer.Business.Commerce.Payment.DIBS
@@ -61,8 +60,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             UpdateOrCreateParameter(DIBSConfiguration.UserParameter, User, paymentMethodId);
             UpdateOrCreateParameter(DIBSConfiguration.PasswordParameter, Password, paymentMethodId);
             UpdateOrCreateParameter(DIBSConfiguration.ProcessingUrlParamter, ProcessingUrl, paymentMethodId);
-            UpdateOrCreateParameter(DIBSConfiguration.MD5Key1Parameter, MD5key1, paymentMethodId);
-            UpdateOrCreateParameter(DIBSConfiguration.MD5Key2Parameter, MD5key2, paymentMethodId);
+            UpdateOrCreateParameter(DIBSConfiguration.HMACKeyParameter, HMACkey, paymentMethodId);
         }
 
         /// <summary>
@@ -79,8 +77,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             BindParameterData(DIBSConfiguration.UserParameter, User);
             BindParameterData(DIBSConfiguration.PasswordParameter, Password);
             BindParameterData(DIBSConfiguration.ProcessingUrlParamter, ProcessingUrl);
-            BindParameterData(DIBSConfiguration.MD5Key1Parameter, MD5key1);
-            BindParameterData(DIBSConfiguration.MD5Key2Parameter, MD5key2);
+            BindParameterData(DIBSConfiguration.HMACKeyParameter, HMACkey);
         }
 
         private void UpdateOrCreateParameter(string parameterName, TextBox parameterControl, Guid paymentMethodId)

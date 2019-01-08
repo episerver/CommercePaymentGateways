@@ -2,10 +2,6 @@
 using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Orders.Dto;
-using Mediachase.Commerce.Orders.Managers;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -22,6 +18,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         private static string _hashKey;
         private static Injected<UrlResolver> _urlResolver =  default(Injected<UrlResolver>);
         private static Injected<LocalizationService> _localizationService = default(Injected<LocalizationService>);
+        private static Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
 
         /// <summary>
         /// Translate with languageKey under /Commerce/Checkout/DataCash/ in lang.xml
@@ -60,30 +57,30 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         /// <returns>The friendly url.</returns>
         public static string GetUrlFromStartPageReferenceProperty(string propertyName)
         {
-            var startPageData = DataFactory.Instance.GetPage(ContentReference.StartPage);
+            var startPageData = _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
             if (startPageData == null)
             {
                 return _urlResolver.Service.GetUrl(ContentReference.StartPage);
             }
 
-            var property = startPageData.Property[propertyName];
-            if (property != null && !property.IsNull && property.Value is ContentReference)
+            var contentLink = startPageData.Property[propertyName]?.Value as ContentReference;
+            if (!ContentReference.IsNullOrEmpty(contentLink))
             {
-                return _urlResolver.Service.GetUrl((ContentReference)property.Value);
+                return _urlResolver.Service.GetUrl(contentLink);
             }
             return _urlResolver.Service.GetUrl(ContentReference.StartPage);
         }
 
         /// <summary>
-        /// Gets the MD5 key, in combination with HashKey.
+        /// Gets the SHA256 key, in combination with HashKey.
         /// </summary>
         /// <param name="hashString">The hash string.</param>
         /// <returns>The hash key.</returns>
-        public static string GetMD5Key(string hashString)
+        public static string GetSHA256Key(string hashString)
         {
-            var md5Crypto = new MD5CryptoServiceProvider();
+            var sha256Crypto = new SHA256CryptoServiceProvider();
             byte[] arrBytes = Encoding.UTF8.GetBytes(HashKey + hashString);
-            arrBytes = md5Crypto.ComputeHash(arrBytes);
+            arrBytes = sha256Crypto.ComputeHash(arrBytes);
             var sb = new StringBuilder();
             foreach (byte b in arrBytes)
             {

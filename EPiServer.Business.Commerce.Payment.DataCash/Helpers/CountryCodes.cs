@@ -11,7 +11,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
 
         /// <summary>
         /// Gets the numeric country code.
-        /// <see cref="http://unstats.un.org/unsd/methods/m49/m49alpha.htm"/>
+        /// See http://unstats.un.org/unsd/methods/m49/m49alpha.htm
         /// </summary>
         /// <param name="countryCode">The country code as ISO ALPHA-3 code.</param>
         public static string GetNumericCountryCode(string countryCode)

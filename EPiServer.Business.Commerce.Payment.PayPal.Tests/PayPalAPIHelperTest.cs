@@ -41,9 +41,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             abstractResponseType.Errors.Add(new ErrorType { SeverityCode = SeverityCodeType.ERROR, ErrorCode = errorCode, LongMessage = message });
             var result = _subject.CheckErrors(abstractResponseType);
 
-            Assert.True(result.Contains(SeverityCodeType.ERROR.ToString()));
-            Assert.True(result.Contains(errorCode));
-            Assert.True(result.Contains(message));
+            Assert.Contains(SeverityCodeType.ERROR.ToString(), result);
+            Assert.Contains(errorCode, result);
+            Assert.Contains(message, result);
         }
 
         [InlineData(AckCodeType.FAILURE)]

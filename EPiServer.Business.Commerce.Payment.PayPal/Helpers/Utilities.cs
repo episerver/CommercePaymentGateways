@@ -17,7 +17,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
         private static Injected<UrlResolver> _urlResolver = default(Injected<UrlResolver>);
         private static Injected<LocalizationService> _localizationService = default(Injected<LocalizationService>);
-        private static Injected<IContentRepository> _contentRepository = default(Injected<IContentRepository>);
+        private static Injected<IContentLoader> _contentLoader = default(Injected<IContentLoader>);
         private static Injected<ReferenceConverter> _referenceConverter = default(Injected<ReferenceConverter>);
 
         /// <summary>
@@ -67,19 +67,18 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         /// <returns>The friendly url.</returns>
         public static string GetUrlFromStartPageReferenceProperty(string propertyName)
         {
-            var startPageData = DataFactory.Instance.GetPage(ContentReference.StartPage);
+            var startPageData = _contentLoader.Service.Get<PageData>(ContentReference.StartPage);
             if (startPageData == null)
             {
                 return _urlResolver.Service.GetUrl(ContentReference.StartPage);
             }
 
-            var result = string.Empty;
-            var property = startPageData.Property[propertyName];
-            if (property != null && !property.IsNull && property.Value is ContentReference)
+            var contentLink = startPageData.Property[propertyName]?.Value as ContentReference;
+            if (!ContentReference.IsNullOrEmpty(contentLink))
             {
-                return _urlResolver.Service.GetUrl((ContentReference)property.Value);
+                return _urlResolver.Service.GetUrl(contentLink);
             }
-            return string.IsNullOrEmpty(result) ? _urlResolver.Service.GetUrl(ContentReference.StartPage) : result;
+            return _urlResolver.Service.GetUrl(ContentReference.StartPage);
         }
 
         /// <summary>
@@ -132,36 +131,36 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
         /// <summary>
         /// Gets the hash value of the accept URL by the order number.
-        /// It's a MD5 key, incombination with HashKey.
+        /// It's a SHA256 key, in combination with HashKey.
         /// </summary>
         /// <param name="orderNumber">The order number.</param>
         /// <returns>The hash value.</returns>
         public static string GetAcceptUrlHashValue(string orderNumber)
         {
-            return GetMD5Key(orderNumber + "accepted");
+            return GetSHA256Key(orderNumber + "accepted");
         }
 
         /// <summary>
         /// Gets the hash value of the cancel URL by the order number.
-        /// It's a MD5 key, incombination with HashKey.
+        /// It's a SHA256 key, in combination with HashKey.
         /// </summary>
         /// <param name="orderNumber">The order number.</param>
         /// <returns>The hash value.</returns>
         public static string GetCancelUrlHashValue(string orderNumber)
         {
-            return GetMD5Key(orderNumber + "canceled");
+            return GetSHA256Key(orderNumber + "canceled");
         }
 
         /// <summary>
-        /// Gets the MD5 key, in combination with hash key string.
+        /// Gets the SHA256 key, in combination with hash key string.
         /// </summary>
         /// <param name="hashString">The hash string.</param>
         /// <returns>The hash key.</returns>
-        private static string GetMD5Key(string hashString)
+        private static string GetSHA256Key(string hashString)
         {
-            var md5Crypto = new MD5CryptoServiceProvider();
+            var sha256Crypto = new SHA256CryptoServiceProvider();
             byte[] arrBytes = Encoding.UTF8.GetBytes(HashKey + hashString);
-            arrBytes = md5Crypto.ComputeHash(arrBytes);
+            arrBytes = sha256Crypto.ComputeHash(arrBytes);
             var sb = new StringBuilder();
             foreach (byte b in arrBytes)
             {
@@ -179,7 +178,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private static string GetDisplayNameInCurrentLanguage(ILineItem lineItem, int maxSize)
         {
             // if the entry is null (product is deleted), return item display name
-            var entryContent = _contentRepository.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(lineItem.Code));
+            var entryContent = _contentLoader.Service.Get<EntryContentBase>(_referenceConverter.Service.GetContentLink(lineItem.Code));
             var displayName = entryContent != null ? entryContent.DisplayName : lineItem.DisplayName;
             return StripPreviewText(displayName, maxSize <= 0 ? 100 : maxSize);
         }

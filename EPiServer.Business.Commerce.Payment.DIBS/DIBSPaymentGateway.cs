@@ -2,6 +2,7 @@
 using EPiServer.Framework.Localization;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using Mediachase.Commerce.Core.Features;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Extensions;
@@ -20,15 +21,14 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
 {
     public class DIBSPaymentGateway : AbstractPaymentGateway, IPaymentPlugin
     {
-        private IFeatureSwitch _featureSwitch;
-        private IInventoryProcessor _inventoryProcessor;
-        private IOrderRepository _orderRepository;
-        private LocalizationService _localizationService;
+        private readonly IFeatureSwitch _featureSwitch;
+        private readonly IInventoryProcessor _inventoryProcessor;
+        private readonly IOrderRepository _orderRepository;
+        private readonly LocalizationService _localizationService;
+        private readonly DIBSRequestHelper _dibsRequestHelper;
 
-        private DIBSRequestHelper _dibsRequestHelper;
-
-
-        public DIBSPaymentGateway():this(
+        public DIBSPaymentGateway()
+            : this(
             ServiceLocator.Current.GetInstance<IFeatureSwitch>(),
             ServiceLocator.Current.GetInstance<IInventoryProcessor>(),
             ServiceLocator.Current.GetInstance<IOrderRepository>(),
@@ -101,13 +101,16 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
                     // return true meaning the capture request is done,
                     // actual capturing must be done on DIBS.
                     var result = _dibsRequestHelper.PostCaptureRequest(payment, purchaseOrder);
-                    // result containing ACCEPTED means the request was successful
-                    if (result.IndexOf("ACCEPTED") == -1)
+                    var status = result["status"];
+                    if (status == "ACCEPT")
                     {
-                        return PaymentProcessingResult.CreateUnsuccessfulResult("There was an error while capturing payment with DIBS");
+                        return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
                     }
 
-                    return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
+                    return PaymentProcessingResult.CreateUnsuccessfulResult(
+                        $@"There was an error while capturing payment with DIBS.
+                        status: {status}
+                        declineReason: {result["declineReason"]}");
                 }
 
                 if (payment.TransactionType == TransactionType.Credit.ToString())
@@ -119,12 +122,16 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
                     }
                     // The transact must be captured before refunding
                     var result = _dibsRequestHelper.PostRefundRequest(payment, purchaseOrder);
-                    if (result.IndexOf("ACCEPTED") == -1)
+                    var status = result["status"];
+                    if (status == "ACCEPT")
                     {
-                        return PaymentProcessingResult.CreateUnsuccessfulResult("There was an error while refunding with DIBS.");
+                        return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
                     }
 
-                    return PaymentProcessingResult.CreateSuccessfulResult(string.Empty);
+                    return PaymentProcessingResult.CreateUnsuccessfulResult(
+                        $@"There was an error while capturing payment with DIBS.
+                        status: {status}
+                        declineReason: {result["declineReason"]}");
                 }
 
                 // right now we do not support processing the order which is created by Commerce Manager
@@ -151,7 +158,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         /// <returns>The url redirection after process.</returns>
         public string ProcessUnsuccessfulTransaction(string cancelUrl, string errorMessage)
         {
-            return UriSupport.AddQueryString(cancelUrl, "message", errorMessage);
+            return UriUtil.AddQueryString(cancelUrl, "message", errorMessage);
         }
 
         /// <summary>
@@ -172,8 +179,8 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
                 return cancelUrl;
             }
 
-            var redirectionUrl = string.Empty;
-            using (TransactionScope scope = new TransactionScope())
+            string redirectionUrl;
+            using (var scope = new TransactionScope())
             {
                 // Change status of payments to processed.
                 // It must be done before execute workflow to ensure payments which should mark as processed.
@@ -185,7 +192,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
 
                 if (!cartCompleted)
                 {
-                    return UriSupport.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
+                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
                 }
 
                 // Save the transact from DIBS to payment.
@@ -193,20 +200,14 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
 
                 var purchaseOrder = MakePurchaseOrder(cart, orderNumber);
 
+                redirectionUrl = UpdateAcceptUrl(purchaseOrder, payment, acceptUrl);
+
                 // Commit changes
                 scope.Complete();
-
-                if (HttpContext.Current.Session != null)
-                {
-                    HttpContext.Current.Session.Remove("LastCouponCode");
-                }
-
-                redirectionUrl = UpdateAcceptUrl(purchaseOrder, payment, acceptUrl);
             }
 
             return redirectionUrl;
         }
-
 
         private IPurchaseOrder MakePurchaseOrder(ICart cart, string orderNumber)
         {
@@ -254,11 +255,11 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
 
         private string UpdateAcceptUrl(IPurchaseOrder purchaseOrder, IPayment payment, string acceptUrl)
         {
-            var redirectionUrl = UriSupport.AddQueryString(acceptUrl, "success", "true");
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "contactId", purchaseOrder.CustomerId.ToString());
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), payment.BillingAddress.Email));
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "email", payment.BillingAddress.Email);
+            var redirectionUrl = UriUtil.AddQueryString(acceptUrl, "success", "true");
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "contactId", purchaseOrder.CustomerId.ToString());
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), payment.BillingAddress.Email));
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "email", payment.BillingAddress.Email);
             return redirectionUrl;
         }
 

@@ -117,7 +117,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         /// though this difference is very small (~0.01 currency).
         /// We adjust this into an additional item to ensure PayPal shows the same total number with Commerce.
         /// We also add the Order discount (if any) as and special item with negative price to PayPal payment detail.
-        /// See detail about PayPal structure type in this link <seealso cref="https://cms.paypal.com/mx/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_soap_r_GetExpressCheckoutDetails#id0848IH0064Y__id099MB0BB0UX"/>
+        /// See detail about PayPal structure type in this link https://developer.paypal.com/docs/classic/express-checkout/ec_api_flow/
         /// </remarks>
         /// <param name="payment">The payment to take info (Total, LineItem, ...) from</param>
         /// <param name="orderGroup">The order group (to be InvoiceID to pass to PayPal)</param>
@@ -227,7 +227,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             paymentDetailsType.PaymentDetailsItem = paymentDetailItems;
             paymentDetailsType.ShipToAddress = AddressHandling.ToAddressType(orderForm.Shipments.First().ShippingAddress);
 
-            if (orderForm.Shipments.Count() > 1)
+            if (orderForm.Shipments.Count > 1)
             {
                 // (Optional) The value 1 indicates that this payment is associated with multiple shipping addresses. Character length and limitations: Four single-byte numeric characters.
                 paymentDetailsType.MultiShipping = "1";

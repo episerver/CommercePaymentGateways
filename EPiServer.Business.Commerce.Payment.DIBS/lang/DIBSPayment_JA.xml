@@ -1,18 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <languages>
   <language name="日本語 (Japanese)" id="ja">
     <Commerce>
       <Checkout>
         <DIBS>
-          <CancelMessage>お支払いは拒否またはキャンセルされます。 もう一度やり直すか、別のお支払い方法を選択してください</CancelMessage>
+          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
+          <PaymentNotAssociatedOrderGroup>注文グループを指定してから、お支払い手続きを行ってください。</PaymentNotAssociatedOrderGroup>
+          <PaymentNotAssociatedOrderForm>注文フォームを指定してから、お支払い手続きを行ってください。</PaymentNotAssociatedOrderForm>
+          <ProcessPaymentNullHttpContext>HttpContext.Current is null.</ProcessPaymentNullHttpContext>
+          <CancelMessage>お支払いは、拒否またはキャンセルされます。 もう一度やり直すか、別のお支払い方法を選択してください。</CancelMessage>
+          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不足しています。 管理者までご連絡ください。</NotEnoughStockWarning>
+          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
           <DIBSSettingsError>DIBS API 設定のエラーです。 管理者に問い合わせてください。</DIBSSettingsError>
           <DIBSText>DIBS</DIBSText>
-          <PaymentNotSpecified>お支払い情報が指定されていません。</PaymentNotSpecified>
-          <PaymentNotAssociatedOrderGroup>お支払いは注文グループと関連付ける必要があります。</PaymentNotAssociatedOrderGroup>
-          <PaymentNotAssociatedOrderForm>お支払いは注文フォームと関連付ける必要があります。</PaymentNotAssociatedOrderForm>
-          <ProcessPaymentNullHttpContext>HttpContext.Current はNullです。</ProcessPaymentNullHttpContext>
-          <NotEnoughStockWarning>支払いは完了しましたが、在庫が不十分です。 管理者までご連絡ください。</NotEnoughStockWarning>
-          <CartValidationWarning>カートを処理する際にエラーが発生しました。</CartValidationWarning>
         </DIBS>
       </Checkout>
     </Commerce>

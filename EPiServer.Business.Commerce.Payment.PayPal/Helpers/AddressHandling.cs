@@ -142,7 +142,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 {
                     // If there is an address has the same name with new address, 
                     // rename new address by appending the index to the name.
-                    var addressCount = customerContact.ContactAddresses.Where(a => a.Name == customerAddress.Name).Count();
+                    var addressCount = customerContact.ContactAddresses.Count(a => a.Name == customerAddress.Name);
                     customerAddress.Name = $"{customerAddress.Name}{(addressCount == 0 ? string.Empty : "-" + addressCount.ToString())}";
 
                     customerContact.AddContactAddress(customerAddress);

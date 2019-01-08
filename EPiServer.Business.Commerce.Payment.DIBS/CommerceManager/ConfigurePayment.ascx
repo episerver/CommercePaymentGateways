@@ -39,22 +39,11 @@
             <td colspan="2" class="FormSpacerCell"></td>
         </tr>
         <tr>
-              <td class="FormLabelCell"><asp:Literal ID="Literal2" runat="server" Text="MD5 key 1" />:</td>
+              <td class="FormLabelCell"><asp:Literal ID="Literal2" runat="server" Text="HMAC key" />:</td>
 	          <td class="FormFieldCell">
-		            <asp:TextBox Runat="server" ID="MD5key1" Width="300px"></asp:TextBox><br>
-		            <asp:RequiredFieldValidator ControlToValidate="MD5key1" Display="dynamic" Font-Name="verdana" Font-Size="9pt"
-			                ErrorMessage="MD5 key 1 is required" runat="server" id="Requiredfieldvalidator1"></asp:RequiredFieldValidator>
-	          </td>
-        </tr>
-         <tr>
-            <td colspan="2" class="FormSpacerCell"></td>
-        </tr>
-        <tr>
-              <td class="FormLabelCell"><asp:Literal ID="Literal3" runat="server" Text="MD5 key 2" />:</td>
-	          <td class="FormFieldCell">
-		            <asp:TextBox Runat="server" ID="MD5key2" Width="300px"></asp:TextBox><br>
-		            <asp:RequiredFieldValidator ControlToValidate="MD5key2" Display="dynamic" Font-Name="verdana" Font-Size="9pt"
-			                ErrorMessage="MD5 key 2 is required" runat="server" id="Requiredfieldvalidator3"></asp:RequiredFieldValidator>
+		            <asp:TextBox Runat="server" ID="HMACkey" Width="300px"></asp:TextBox><br>
+		            <asp:RequiredFieldValidator ControlToValidate="HMACkey" Display="dynamic" Font-Name="verdana" Font-Size="9pt"
+			                ErrorMessage="HMAC key is required" runat="server" id="Requiredfieldvalidator1"></asp:RequiredFieldValidator>
 	          </td>
         </tr>
     </table>

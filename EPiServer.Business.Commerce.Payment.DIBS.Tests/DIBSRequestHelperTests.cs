@@ -17,30 +17,55 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests
             var notifyUrl = "http://episervercommerce/dibscheckout";
             var currency = _orderGroup.Currency;
             var result = _subject.CreateRequestPaymentData(_payment, _orderGroup as ICart, notifyUrl);
+            var billingAddress = _payment.BillingAddress;
 
-            Assert.True(result.ContainsKey("paymentprovider"));
-            Assert.True(result.ContainsKey("merchant"));
-            Assert.Equal("SampleMerchant", result["merchant"]);
+            Assert.True(result.ContainsKey("acceptReturnUrl"));
+            Assert.Equal(notifyUrl, result["acceptReturnUrl"]);
+
             Assert.True(result.ContainsKey("amount"));
-            Assert.Equal(Utilities.GetAmount(currency, _payment.Amount), result["amount"]);
+            Assert.Equal("12500", result["amount"].ToString());
+
+            Assert.True(result.ContainsKey("billingAddress"));
+            Assert.Equal(billingAddress.Line1, result["billingAddress"].ToString());
+
+            Assert.True(result.ContainsKey("billingAddress2"));
+            Assert.Equal(billingAddress.Line2, result["billingAddress2"].ToString());
+
+            Assert.True(result.ContainsKey("billingEmail"));
+            Assert.Equal(billingAddress.Email, result["billingEmail"].ToString());
+
+            Assert.True(result.ContainsKey("billingFirstName"));
+            Assert.Equal(billingAddress.FirstName, result["billingFirstName"].ToString());
+
+            Assert.True(result.ContainsKey("billingLastName"));
+            Assert.Equal(billingAddress.LastName, result["billingLastName"].ToString());
+
+            Assert.True(result.ContainsKey("billingMobile"));
+            Assert.Equal(billingAddress.DaytimePhoneNumber, result["billingMobile"].ToString());
+
+            Assert.True(result.ContainsKey("billingPostalCode"));
+            Assert.Equal(billingAddress.PostalCode, result["billingPostalCode"].ToString());
+
+            Assert.True(result.ContainsKey("cancelReturnUrl"));
+            Assert.Equal(notifyUrl, result["cancelReturnUrl"].ToString());
+
             Assert.True(result.ContainsKey("currency"));
-            Assert.Equal(currency.ToString(), result["currency"]);
-            Assert.True(result.ContainsKey("orderid"));
-            Assert.Equal(_orderNumber, result["orderid"]);
-            Assert.True(result.ContainsKey("uniqueoid"));
-            Assert.True(result.ContainsKey("accepturl"));
-            Assert.Equal(notifyUrl, result["accepturl"]);
-            Assert.True(result.ContainsKey("cancelurl"));
-            Assert.Equal(notifyUrl, result["cancelurl"]);
-            Assert.True(result.ContainsKey("lang"));
-            Assert.True(result.ContainsKey("md5key"));
-            Assert.Equal(notifyUrl, result["cancelurl"]);
+            Assert.Equal(_orderGroup.Currency.CurrencyCode, result["currency"].ToString());
+
+            Assert.True(result.ContainsKey("merchant"));
+            Assert.Equal(_dibsConfiguration.Merchant, result["merchant"].ToString());
+
+            Assert.True(result.ContainsKey("orderId"));
+
+            Assert.True(result.ContainsKey("test"));
+            Assert.Equal("1", result["test"].ToString());
         }
 
-        string _orderNumber = "PO123";
-        IPayment _payment;
-        IOrderGroup _orderGroup;
-        DIBSRequestHelper _subject;
+        private readonly string _orderNumber = "PO123";
+        private IPayment _payment;
+        private IOrderGroup _orderGroup;
+        private DIBSRequestHelperForTest _subject;
+        private DIBSConfiguration _dibsConfiguration;
 
         public DIBSRequestHelperTests()
         {
@@ -54,16 +79,16 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests
 
             _orderGroup = new FakeOrderGroup();
             _orderGroup.Forms.Add(orderForm);
-            
-            var dibsConfiguration = new DIBSConfigurationForTest();
+
+            _dibsConfiguration = new DIBSConfigurationForTest();
 
             var orderNumberGeneratorMock = new Mock<IOrderNumberGenerator>();
             orderNumberGeneratorMock.Setup(x => x.GenerateOrderNumber(It.IsAny<IOrderGroup>())).Returns(_orderNumber);
 
-            _subject = new DIBSRequestHelper(orderNumberGeneratorMock.Object, new SiteContext(), dibsConfiguration);
+            _subject = new DIBSRequestHelperForTest(orderNumberGeneratorMock.Object, new SiteContext(), _dibsConfiguration);
         }
 
-        class DIBSConfigurationForTest : DIBSConfiguration
+        private class DIBSConfigurationForTest : DIBSConfiguration
         {
             protected override void Initialize(IDictionary<string, string> settings)
             {
@@ -73,8 +98,21 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests
                 Password = "samplePassword";
 
                 ProcessingUrl = "http://sampledibs.com";
-                MD5Key1 = "sampleKey1";
-                MD5Key2 = "sampleKey2";
+                HMACKey = "sampleKey1";
+            }
+        }
+
+        private class DIBSRequestHelperForTest : DIBSRequestHelper
+        {
+            public DIBSRequestHelperForTest(
+                IOrderNumberGenerator orderNumberGenerator,
+                SiteContext siteContext,
+                DIBSConfiguration dibsConfiguration) : base(orderNumberGenerator, siteContext, dibsConfiguration)
+            { }
+
+            protected override string GetMACRequest(DIBSConfiguration configuration, Dictionary<string, object> message)
+            {
+                return "sample generated MAC";
             }
         }
     }

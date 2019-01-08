@@ -10,6 +10,7 @@ using Mediachase.Commerce.Security;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Web;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
 {
@@ -53,8 +54,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
             // Redirect customer to receipt page
             var cancelUrl = Utilities.GetUrlFromStartPageReferenceProperty("CheckoutPage"); // get link to Checkout page
-            cancelUrl = UriSupport.AddQueryString(cancelUrl, "success", "false");
-            cancelUrl = UriSupport.AddQueryString(cancelUrl, "paymentmethod", "paypal");
+            cancelUrl = UriUtil.AddQueryString(cancelUrl, "success", "false");
+            cancelUrl = UriUtil.AddQueryString(cancelUrl, "paymentmethod", "paypal");
 
             var gateway = new PayPalPaymentGateway();
             var redirectUrl = cancelUrl;

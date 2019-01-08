@@ -2,6 +2,7 @@
 using EPiServer.Logging;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using Mediachase.Commerce.Core.Features;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Extensions;
@@ -14,7 +15,6 @@ using PayPal.PayPalAPIInterfaceService.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -44,25 +44,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                   ServiceLocator.Current.GetInstance<IOrderRepository>(),
                   ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
                   new PayPalAPIHelper())
-        {
-        }
-
-        [Obsolete("This constructor is no longer used, use constructor with IOrderGroupCalculator instead. Will remain at least until November 2018.")]
-        public PayPalPaymentGateway(
-            IFeatureSwitch featureSwitch,
-            IInventoryProcessor inventoryProcessor,
-            IOrderNumberGenerator orderNumberGenerator,
-            IOrderRepository orderRepository,
-            ITaxCalculator taxCalculator,
-            PayPalAPIHelper paypalAPIHelper)
-            :this(
-                 featureSwitch,
-                 inventoryProcessor,
-                 orderNumberGenerator,
-                 orderRepository,
-                 ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
-                 paypalAPIHelper
-                 )
         {
         }
 
@@ -128,6 +109,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return PaymentProcessingResult.CreateUnsuccessfulResult(Utilities.Translate("PaymentNotAssociatedOrderForm"));
             }
 
+            _paymentMethodConfiguration = new PayPalConfiguration(Settings);
+
             if (string.IsNullOrEmpty(payment.TransactionType) && !string.IsNullOrEmpty(_paymentMethodConfiguration.PaymentAction))
             {
                 payment.TransactionType = _paymentMethodConfiguration.PaymentAction;
@@ -190,11 +173,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return cancelUrl;
             }
 
-            if (HttpContext.Current.Session != null)
-            {
-                HttpContext.Current.Session.Remove("LastCouponCode");
-            }
-
             var cart = orderGroup as ICart;
             if (cart == null)
             {
@@ -202,8 +180,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 return ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("CommitTranErrorCartNull"));
             }
 
-            var redirectionUrl = acceptUrl;
-            using (TransactionScope scope = new TransactionScope())
+            string redirectionUrl;
+            using (var scope = new TransactionScope())
             {
                 var getDetailRequest = new GetExpressCheckoutDetailsRequestType
                 {
@@ -291,16 +269,16 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
                 if (!cartCompleted)
                 {
-                    return UriSupport.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
+                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
                 }
 
                 // Place order
                 var purchaseOrder = MakePurchaseOrder(doCheckOutResponse, cart, payment);
 
+                redirectionUrl = CreateRedirectionUrl(purchaseOrder, acceptUrl, payment.BillingAddress.Email);
+
                 // Commit changes
                 scope.Complete();
-
-                redirectionUrl = CreateRedirectionUrl(purchaseOrder, acceptUrl, payment.BillingAddress.Email);
             }
 
             _logger.Information($"PayPal transaction succeeds, redirect end user to {redirectionUrl}");
@@ -317,8 +295,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 PayerID = checkoutDetailsResponse.PayerInfo.PayerID
             };
 
-            TransactionType transactionType;
-            if (Enum.TryParse(_paymentMethodConfiguration.PaymentAction, out transactionType))
+            if (Enum.TryParse(_paymentMethodConfiguration.PaymentAction, out TransactionType transactionType))
             {
                 if (transactionType == TransactionType.Authorization)
                 {
@@ -438,11 +415,11 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
         private string CreateRedirectionUrl(IPurchaseOrder purchaseOrder, string acceptUrl, string email)
         {
-            var redirectionUrl = UriSupport.AddQueryString(acceptUrl, "success", "true");
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "contactId", purchaseOrder.CustomerId.ToString());
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "notificationMessage", string.Format(Utilities.GetLocalizationMessage("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
-            redirectionUrl = UriSupport.AddQueryString(redirectionUrl, "email", email);
+            var redirectionUrl = UriUtil.AddQueryString(acceptUrl, "success", "true");
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "contactId", purchaseOrder.CustomerId.ToString());
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "notificationMessage", string.Format(Utilities.GetLocalizationMessage("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
+            redirectionUrl = UriUtil.AddQueryString(redirectionUrl, "email", email);
 
             return redirectionUrl;
         }
@@ -461,7 +438,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             }
 
             _logger.Error($"PayPal transaction failed [{errorMessage}].");
-            return UriSupport.AddQueryString(cancelUrl, "message", errorMessage);
+            return UriUtil.AddQueryString(cancelUrl, "message", errorMessage);
         }
 
         /// <summary>
@@ -628,11 +605,11 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
             _notifyUrl = UriSupport.AbsoluteUrlBySettings(Utilities.GetUrlFromStartPageReferenceProperty("PayPalPaymentPage"));
 
-            var acceptUrl = UriSupport.AddQueryString(_notifyUrl, "accept", "true");
-            acceptUrl = UriSupport.AddQueryString(acceptUrl, "hash", acceptSecurityKey);
+            var acceptUrl = UriUtil.AddQueryString(_notifyUrl, "accept", "true");
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "hash", acceptSecurityKey);
 
-            var cancelUrl = UriSupport.AddQueryString(_notifyUrl, "accept", "false");
-            cancelUrl = UriSupport.AddQueryString(cancelUrl, "hash", cancelSecurityKey);
+            var cancelUrl = UriUtil.AddQueryString(_notifyUrl, "accept", "false");
+            cancelUrl = UriUtil.AddQueryString(cancelUrl, "hash", cancelSecurityKey);
 
             setExpressChkOutReqDetails.CancelURL = cancelUrl;
             setExpressChkOutReqDetails.ReturnURL = acceptUrl;
@@ -646,9 +623,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private string CreateRedirectUrl(string expChkoutURLSetting, string token)
         {
             var redirectUrl = expChkoutURLSetting;
-            redirectUrl = UriSupport.AddQueryString(redirectUrl, "cmd", "_express-checkout");
-            redirectUrl = UriSupport.AddQueryString(redirectUrl, "token", token);
-            redirectUrl = UriSupport.AddQueryString(redirectUrl, "useraction", "commit");
+            redirectUrl = UriUtil.AddQueryString(redirectUrl, "cmd", "_express-checkout");
+            redirectUrl = UriUtil.AddQueryString(redirectUrl, "token", token);
+            redirectUrl = UriUtil.AddQueryString(redirectUrl, "useraction", "commit");
             return redirectUrl;
         }
 

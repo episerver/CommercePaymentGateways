@@ -1,7 +1,5 @@
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Website;
-using Mediachase.Commerce.Website.BaseControls;
 using System.Web.UI;
 
 namespace EPiServer.Business.Commerce.Payment.DIBS
@@ -27,8 +25,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             {
                 var dibsConfiguration = new DIBSConfiguration();
                 if (string.IsNullOrEmpty(dibsConfiguration.ProcessingUrl) 
-                 || string.IsNullOrEmpty(dibsConfiguration.MD5Key1) 
-                 || string.IsNullOrEmpty(dibsConfiguration.MD5Key2))
+                 || string.IsNullOrEmpty(dibsConfiguration.HMACKey))
                 {
                     ConfigMessage.Text = Utilities.Translate("DIBSSettingsError");
                 }

@@ -2,6 +2,7 @@
 using EPiServer.Editor;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Exceptions;
@@ -57,12 +58,12 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
             // Redirect customer to receipt page
             var acceptUrl = Utilities.GetUrlFromStartPageReferenceProperty("DataCashPaymentLandingPage");
             var cancelUrl = Utilities.GetUrlFromStartPageReferenceProperty("CheckoutPage"); // get link to Checkout page
-            cancelUrl = UriSupport.AddQueryString(cancelUrl, "success", "false");
-            cancelUrl = UriSupport.AddQueryString(cancelUrl, "paymentmethod", "DataCash");
+            cancelUrl = UriUtil.AddQueryString(cancelUrl, "success", "false");
+            cancelUrl = UriUtil.AddQueryString(cancelUrl, "paymentmethod", "DataCash");
 
             var gateway = new DataCashPaymentGateway();
             string redirectUrl;
-            if (string.Equals(Request.QueryString["accept"], "true") && Utilities.GetMD5Key(merchantRef + "accepted") == Request.QueryString["hash"])
+            if (string.Equals(Request.QueryString["accept"], "true") && Utilities.GetSHA256Key(merchantRef + "accepted") == Request.QueryString["hash"])
             {
                 redirectUrl = gateway.ProcessSuccessfulTransaction(currentCart, payment, acceptUrl, cancelUrl);
             }
