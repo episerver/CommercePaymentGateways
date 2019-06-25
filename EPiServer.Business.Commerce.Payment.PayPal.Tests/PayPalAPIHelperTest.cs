@@ -85,6 +85,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             Assert.Equal(expectedLandingPageType, result.LandingPage);
         }
 
+
         [Fact]
         public void GetPaymentDetailsType_ShouldReturnCorrectly()
         {
@@ -99,9 +100,10 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             var orderTotal = itemPrice * quantiy + taxAmount + shippingSubTotal;
 
             var factory = new FakeOrderGroupBuilderFactory();
-            var orderForm = factory.CreateOrderForm();
-            var shipment = factory.CreateShipment();
-            var lineItem = factory.CreateLineItem(itemCode);
+            var orderGroup = new FakeOrderGroup();
+            var orderForm = factory.CreateOrderForm(orderGroup);
+            var shipment = factory.CreateShipment(orderGroup);
+            var lineItem = factory.CreateLineItem(itemCode, orderGroup);
             lineItem.DisplayName = itemName;
             lineItem.Quantity = quantiy;
             lineItem.PlacedPrice = itemPrice;
@@ -113,7 +115,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests
             var payment = factory.CreatePayment();
             payment.Amount = orderTotal;
             orderForm.Payments.Add(payment);
-            var orderGroup = new FakeOrderGroup();
             orderGroup.Forms.Add(orderForm);
 
             _orderGroupCalculatorMock.Setup(s => s.GetTaxTotal(It.IsAny<IOrderGroup>())).Returns(new Money(taxAmount, Currency.USD));

@@ -18,17 +18,17 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport
             }
         }
 
-        public IOrderForm CreateOrderForm()
+        public IOrderForm CreateOrderForm(IOrderGroup orderGroup)
         {
             return new FakeOrderForm();
         }
 
-        public IShipment CreateShipment()
+        public IShipment CreateShipment(IOrderGroup orderGroup)
         {
             return new FakeShipment();
         }
 
-        public ILineItem CreateLineItem(string code)
+        public ILineItem CreateLineItem(string code, IOrderGroup orderGroup)
         {
             return new FakeLineItem() { Code = code };
         }

@@ -44,7 +44,10 @@ namespace PiServer.Business.Commerce.Payment.DataCash.Tests.TestSupport
         public bool PricesIncludeTax => Parent?.PricesIncludeTax ?? false;
 
         public Hashtable Properties { get; private set; }
-        
+
+        /// <inheritdoc />
+        public IOrderGroup ParentOrderGroup => throw new System.NotImplementedException();
+
         public FakeOrderForm()
         {
             Shipments = new List<IShipment>();

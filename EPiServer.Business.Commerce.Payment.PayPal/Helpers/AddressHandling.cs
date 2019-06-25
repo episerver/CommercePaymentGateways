@@ -1,13 +1,12 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Security;
-using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Customers.Profile;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Security;
-using Mediachase.Commerce.Website.Helpers;
 using PayPal.PayPalAPIInterfaceService.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -137,7 +136,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 customerAddress.RegionCode = orderAddress.RegionCode;
 
 #pragma warning disable 618
-                if (customerContact.ContactAddresses == null || !StoreHelper.IsAddressInCollection(customerContact.ContactAddresses, customerAddress))
+                if (customerContact.ContactAddresses == null || !IsAddressInCollection(customerContact.ContactAddresses, customerAddress))
 #pragma warning restore 618
                 {
                     // If there is an address has the same name with new address, 
@@ -149,6 +148,62 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                     customerContact.SaveChanges();
                 }
             }
+        }
+
+        private static bool IsAddressInCollection(IEnumerable<CustomerAddress> collection, CustomerAddress address)
+        {
+            if (address == null)
+                return false;
+
+            bool found = false;
+
+            foreach (CustomerAddress tmpAddress in collection)
+            {
+                if (CheckAddressesEquality(tmpAddress, address))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        private static bool CheckAddressesEquality(CustomerAddress address1, CustomerAddress address2)
+        {
+            bool addressesEqual = false;
+
+            if (address1 == null && address2 == null)
+                addressesEqual = true;
+            else if (address1 == null && address2 != null)
+                addressesEqual = false;
+            else if (address1 != null && address2 == null)
+                addressesEqual = false;
+            else if (address1 != null && address2 != null)
+            {
+                addressesEqual = AddressStringsEqual(address1.City, address2.City) &&
+                                 AddressStringsEqual(address1.CountryCode, address2.CountryCode) &&
+                                 AddressStringsEqual(address1.CountryName, address2.CountryName) &&
+                                 AddressStringsEqual(address1.DaytimePhoneNumber, address2.DaytimePhoneNumber) &&
+                                 AddressStringsEqual(address1.EveningPhoneNumber, address2.EveningPhoneNumber) &&
+                                 //(String.Compare(address1.FaxNumber, address2.FaxNumber) == 0) &&
+                                 AddressStringsEqual(address1.FirstName, address2.FirstName) &&
+                                 AddressStringsEqual(address1.LastName, address2.LastName) &&
+                                 AddressStringsEqual(address1.Line1, address2.Line1) &&
+                                 AddressStringsEqual(address1.Line2, address2.Line2) &&
+                                 AddressStringsEqual(address1.Organization, address2.Organization) &&
+                                 AddressStringsEqual(address1.RegionCode, address2.RegionCode) &&
+                                 AddressStringsEqual(address1.RegionName, address2.RegionName) &&
+                                 AddressStringsEqual(address1.State, address2.State);
+            }
+
+            return addressesEqual;
+        }
+
+        private static bool AddressStringsEqual(string str1, string str2)
+        {
+            return (String.IsNullOrEmpty(str1) && String.IsNullOrEmpty(str2)) ||
+                   (String.Compare(str1, str2, StringComparison.OrdinalIgnoreCase) == 0);
         }
     }
 }

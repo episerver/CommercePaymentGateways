@@ -44,7 +44,10 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
         public ICollection<IPayment> Payments { get; set; }
 
         public Hashtable Properties { get; private set; }
-        
+
+        /// <inheritdoc />
+        public IOrderGroup ParentOrderGroup => throw new System.NotImplementedException();
+
         public FakeOrderForm()
         {
             Shipments = new List<IShipment>();

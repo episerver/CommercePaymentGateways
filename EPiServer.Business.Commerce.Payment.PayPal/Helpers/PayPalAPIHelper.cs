@@ -25,18 +25,6 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             new PayPalCurrencies())
         { }
 
-        [Obsolete("This constructor is no longer used, use constructor with IOrderGroupCalculator instead. Will remain at least until November 2018.")]
-        public PayPalAPIHelper(
-            IShippingCalculator shippingCalculator,
-            ITaxCalculator taxCalculator,
-            LocalizationService localizationService,
-            PayPalCurrencies paypalCurrencies)
-            : this (ServiceLocator.Current.GetInstance<IOrderGroupCalculator>(),
-                  localizationService,
-                  paypalCurrencies)
-        {
-        }
-
         public PayPalAPIHelper(
             IOrderGroupCalculator orderGroupCalculator,
             LocalizationService localizationService,

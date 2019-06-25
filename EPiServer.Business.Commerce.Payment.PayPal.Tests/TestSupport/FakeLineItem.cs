@@ -30,6 +30,9 @@ namespace EPiServer.Business.Commerce.Payment.PayPal.Tests.TestSupport
 
         public Hashtable Properties { get; private set; }
 
+        /// <inheritdoc />
+        public IOrderGroup ParentOrderGroup => throw new System.NotImplementedException();
+
         public FakeLineItem()
         {
             LineItemId = ++_counter;

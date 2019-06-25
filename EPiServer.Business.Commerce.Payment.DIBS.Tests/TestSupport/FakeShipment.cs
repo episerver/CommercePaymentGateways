@@ -30,6 +30,9 @@ namespace EPiServer.Business.Commerce.Payment.DIBS.Tests.TestSupport
 
         public Hashtable Properties { get; private set; }
 
+        /// <inheritdoc />
+        public IOrderGroup ParentOrderGroup => throw new NotImplementedException();
+
         public FakeShipment()
         {
             LineItems = new List<ILineItem>();
