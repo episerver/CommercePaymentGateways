@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using EPiServer.Data;
 
 namespace EPiServer.Business.Commerce.Payment.DIBS
 {
@@ -26,6 +27,7 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         private readonly IOrderRepository _orderRepository;
         private readonly LocalizationService _localizationService;
         private readonly DIBSRequestHelper _dibsRequestHelper;
+        private static readonly Lazy<DatabaseMode> _databaseMode = new Lazy<DatabaseMode>(GetDefaultDatabaseMode);
 
         public DIBSPaymentGateway()
             : this(
@@ -180,31 +182,26 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             }
 
             string redirectionUrl;
-            using (var scope = new TransactionScope())
+
+            // Change status of payments to processed.
+            // It must be done before execute workflow to ensure payments which should mark as processed.
+            // To avoid get errors when executed workflow.
+            PaymentStatusManager.ProcessPayment(payment);
+
+            var errorMessages = new List<string>();
+            var cartCompleted = DoCompletingCart(cart, errorMessages);
+
+            if (!cartCompleted)
             {
-                // Change status of payments to processed.
-                // It must be done before execute workflow to ensure payments which should mark as processed.
-                // To avoid get errors when executed workflow.
-                PaymentStatusManager.ProcessPayment(payment);
-
-                var errorMessages = new List<string>();
-                var cartCompleted = DoCompletingCart(cart, errorMessages);
-
-                if (!cartCompleted)
-                {
-                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
-                }
-
-                // Save the transact from DIBS to payment.
-                payment.TransactionID = transactionID;
-
-                var purchaseOrder = MakePurchaseOrder(cart, orderNumber);
-
-                redirectionUrl = UpdateAcceptUrl(purchaseOrder, payment, acceptUrl);
-
-                // Commit changes
-                scope.Complete();
+                return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
             }
+
+            // Save the transact from DIBS to payment.
+            payment.TransactionID = transactionID;
+
+            var purchaseOrder = MakePurchaseOrder(cart, orderNumber);
+
+            redirectionUrl = UpdateAcceptUrl(purchaseOrder, payment, acceptUrl);
 
             return redirectionUrl;
         }
@@ -218,8 +215,11 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
 
             UpdateOrder(purchaseOrder, orderNumber);
 
-            UpdateLastOrderOfCurrentContact(CustomerContext.Current.CurrentContact, purchaseOrder.Created);
-            
+            if (_databaseMode.Value != DatabaseMode.ReadOnly)
+            {
+                UpdateLastOrderOfCurrentContact(CustomerContext.Current.CurrentContact, purchaseOrder.Created);
+            }
+
             AddNoteToPurchaseOrder($"New order placed by {PrincipalInfo.CurrentPrincipal.Identity.Name} in Public site", purchaseOrder);
 
             _orderRepository.Save(purchaseOrder);
@@ -272,38 +272,43 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
         {
             var isSuccess = true;
 
-            if (_featureSwitch.IsSerializedCartsEnabled())
+            if (_databaseMode.Value != DatabaseMode.ReadOnly)
             {
-                var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
-                cart.AdjustInventoryOrRemoveLineItems((item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
-
-                isSuccess = !validationIssues.Any();
-
-                foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
+                if (_featureSwitch.IsSerializedCartsEnabled())
                 {
-                    if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                    var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
+                    cart.AdjustInventoryOrRemoveLineItems(
+                        (item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
+
+                    isSuccess = !validationIssues.Any();
+
+                    foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
                     {
-                        errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                        {
+                            errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        }
+                        else
+                        {
+                            errorMessages.Add(Utilities.Translate("CartValidationWarning"));
+                        }
                     }
-                    else
-                    {
-                        errorMessages.Add(Utilities.Translate("CartValidationWarning"));
-                    }
+
+                    return isSuccess;
                 }
 
-                return isSuccess;
-            }
+                // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
+                var isIgnoreProcessPayment = new Dictionary<string, object> {{"PreventProcessPayment", true}};
+                var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup) cart,
+                    OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
 
-            // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
-            var isIgnoreProcessPayment = new Dictionary<string, object> { { "PreventProcessPayment", true } };
-            var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup)cart, OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
+                var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
+                isSuccess = warnings.Count == 0;
 
-            var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
-            isSuccess = warnings.Count == 0;
-
-            foreach (string message in warnings.Values)
-            {
-                errorMessages.Add(message);
+                foreach (string message in warnings.Values)
+                {
+                    errorMessages.Add(message);
+                }
             }
 
             return isSuccess;
@@ -336,6 +341,15 @@ namespace EPiServer.Business.Commerce.Payment.DIBS
             {
                 issues[lineItem].Add(issue);
             }
+        }
+
+        private static DatabaseMode GetDefaultDatabaseMode()
+        {
+            if (!_databaseMode.IsValueCreated)
+            {
+                return ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode;
+            }
+            return _databaseMode.Value;
         }
     }
 }

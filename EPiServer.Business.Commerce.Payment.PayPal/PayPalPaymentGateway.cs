@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using EPiServer.Data;
 
 namespace EPiServer.Business.Commerce.Payment.PayPal
 {
@@ -26,6 +27,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
         public const string PayPalOrderNumberPropertyName = "PayPalOrderNumber";
         public const string PayPalExpTokenPropertyName = "PayPalExpToken";
+        private const string PaymentTransactionFailedMessage = "Payment transaction cannot be completed. See the application log for more details.";
 
         private readonly IOrderRepository _orderRepository;
         private readonly IFeatureSwitch _featureSwitch;
@@ -33,6 +35,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly PayPalAPIHelper _payPalAPIHelper;
+        private static Lazy<DatabaseMode> _databaseMode = new Lazy<DatabaseMode>(() => GetDefaultDatabaseMode());
 
         private string _notifyUrl = string.Empty;
         private PayPalConfiguration _paymentMethodConfiguration;
@@ -181,105 +184,100 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             }
 
             string redirectionUrl;
-            using (var scope = new TransactionScope())
+            var getDetailRequest = new GetExpressCheckoutDetailsRequestType
             {
-                var getDetailRequest = new GetExpressCheckoutDetailsRequestType
-                {
-                    Token = payment.Properties[PayPalExpTokenPropertyName] as string // Add request-specific fields to the request.
-                };
+                Token = payment.Properties[PayPalExpTokenPropertyName] as string // Add request-specific fields to the request.
+            };
 
-                // Execute the API operation and obtain the response.
-                var caller = PayPalAPIHelper.GetPayPalAPICallerServices(_paymentMethodConfiguration);
-                var getDetailsResponse = caller.GetExpressCheckoutDetails(new GetExpressCheckoutDetailsReq
-                {
-                    GetExpressCheckoutDetailsRequest = getDetailRequest
-                });
+            // Execute the API operation and obtain the response.
+            var caller = PayPalAPIHelper.GetPayPalAPICallerServices(_paymentMethodConfiguration);
+            var getDetailsResponse = caller.GetExpressCheckoutDetails(new GetExpressCheckoutDetailsReq
+            {
+                GetExpressCheckoutDetailsRequest = getDetailRequest
+            });
 
-                var errorCheck = _payPalAPIHelper.CheckErrors(getDetailsResponse);
-                if (!string.IsNullOrEmpty(errorCheck))
-                {
-                    // unsuccessful get detail call
-                    return ProcessUnsuccessfulTransaction(cancelUrl, errorCheck);
-                }
-
-                var expressCheckoutDetailsResponse = getDetailsResponse.GetExpressCheckoutDetailsResponseDetails;
-                // get commerceOrderId from what we put to PayPal instead of getting from cookie
-                payment.Properties[PayPalOrderNumberPropertyName] = expressCheckoutDetailsResponse.InvoiceID;
-
-                //process details sent from paypal, changing addresses if required
-                var emptyAddressMsg = string.Empty;
-
-                //process billing address
-                var payPalBillingAddress = expressCheckoutDetailsResponse.BillingAddress;
-                if (payPalBillingAddress != null && AddressHandling.IsAddressChanged(payment.BillingAddress, payPalBillingAddress))
-                {
-                    emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalBillingAddress, payment.BillingAddress, CustomerAddressTypeEnum.Billing, "CommitTranErrorPayPalBillingAddressEmpty");
-                    if (!string.IsNullOrEmpty(emptyAddressMsg))
-                    {
-                        return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
-                    }
-                }
-
-                //process shipping address
-                var payPalShippingAddress = expressCheckoutDetailsResponse.PaymentDetails[0].ShipToAddress;
-                if (payPalShippingAddress != null && AddressHandling.IsAddressChanged(cart.GetFirstShipment().ShippingAddress, payPalShippingAddress))
-                {
-                    //when address was changed on PayPal site, it might cause changing tax value changed and changing order value also.
-                    var taxValueBefore = cart.GetTaxTotal(_orderGroupCalculator);
-
-                    var shippingAddress = orderGroup.CreateOrderAddress("address");
-
-                    emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalShippingAddress, shippingAddress, CustomerAddressTypeEnum.Shipping, "CommitTranErrorPayPalShippingAddressEmpty");
-                    if (!string.IsNullOrEmpty(emptyAddressMsg))
-                    {
-                        return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
-                    }
-
-                    cart.GetFirstShipment().ShippingAddress = shippingAddress;
-
-                    var taxValueAfter = cart.GetTaxTotal(_orderGroupCalculator);
-                    if (taxValueBefore != taxValueAfter)
-                    {
-                        _orderRepository.Save(cart); // Saving cart to submit order address changed.
-                        scope.Complete();
-                        return ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("ProcessPaymentTaxValueChangedWarning"));
-                    }
-                }
-
-                // Add request-specific fields to the request.
-                // Create the request details object.
-                var doExpressChkOutPaymentReqDetails = CreateExpressCheckoutPaymentRequest(getDetailsResponse, orderGroup, payment);
-
-                // Execute the API operation and obtain the response.
-                var doCheckOutResponse = caller.DoExpressCheckoutPayment(new DoExpressCheckoutPaymentReq
-                {
-                    DoExpressCheckoutPaymentRequest = new DoExpressCheckoutPaymentRequestType(doExpressChkOutPaymentReqDetails)
-                });
-
-                errorCheck = _payPalAPIHelper.CheckErrors(doCheckOutResponse);
-                if (!string.IsNullOrEmpty(errorCheck))
-                {
-                    // unsuccessful doCheckout response
-                    return ProcessUnsuccessfulTransaction(cancelUrl, errorCheck);
-                }
-
-                // everything is fine, this is a flag to tell ProcessPayment know about this case: redirect back from PayPal with accepted payment
-                var errorMessages = new List<string>();
-                var cartCompleted = DoCompletingCart(cart, errorMessages);
-
-                if (!cartCompleted)
-                {
-                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
-                }
-
-                // Place order
-                var purchaseOrder = MakePurchaseOrder(doCheckOutResponse, cart, payment);
-
-                redirectionUrl = CreateRedirectionUrl(purchaseOrder, acceptUrl, payment.BillingAddress.Email);
-
-                // Commit changes
-                scope.Complete();
+            var errorCheck = _payPalAPIHelper.CheckErrors(getDetailsResponse);
+            if (!string.IsNullOrEmpty(errorCheck))
+            {
+                // unsuccessful get detail call
+                _logger.Error(errorCheck);
+                return ProcessUnsuccessfulTransaction(cancelUrl, PaymentTransactionFailedMessage);
             }
+
+            var expressCheckoutDetailsResponse = getDetailsResponse.GetExpressCheckoutDetailsResponseDetails;
+            // get commerceOrderId from what we put to PayPal instead of getting from cookie
+            payment.Properties[PayPalOrderNumberPropertyName] = expressCheckoutDetailsResponse.InvoiceID;
+
+            //process details sent from paypal, changing addresses if required
+            var emptyAddressMsg = string.Empty;
+
+            //process billing address
+            var payPalBillingAddress = expressCheckoutDetailsResponse.BillingAddress;
+            if (payPalBillingAddress != null && AddressHandling.IsAddressChanged(payment.BillingAddress, payPalBillingAddress))
+            {
+                emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalBillingAddress, payment.BillingAddress, CustomerAddressTypeEnum.Billing, "CommitTranErrorPayPalBillingAddressEmpty");
+                if (!string.IsNullOrEmpty(emptyAddressMsg))
+                {
+                    return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
+                }
+            }
+
+            //process shipping address
+            var payPalShippingAddress = expressCheckoutDetailsResponse.PaymentDetails[0].ShipToAddress;
+            if (payPalShippingAddress != null && AddressHandling.IsAddressChanged(cart.GetFirstShipment().ShippingAddress, payPalShippingAddress))
+            {
+                //when address was changed on PayPal site, it might cause changing tax value changed and changing order value also.
+                var taxValueBefore = cart.GetTaxTotal(_orderGroupCalculator);
+
+                var shippingAddress = orderGroup.CreateOrderAddress("address");
+
+                emptyAddressMsg = _payPalAPIHelper.ProcessOrderAddress(expressCheckoutDetailsResponse.PayerInfo, payPalShippingAddress, shippingAddress, CustomerAddressTypeEnum.Shipping, "CommitTranErrorPayPalShippingAddressEmpty");
+                if (!string.IsNullOrEmpty(emptyAddressMsg))
+                {
+                    return ProcessUnsuccessfulTransaction(cancelUrl, emptyAddressMsg);
+                }
+
+                cart.GetFirstShipment().ShippingAddress = shippingAddress;
+
+                var taxValueAfter = cart.GetTaxTotal(_orderGroupCalculator);
+                if (taxValueBefore != taxValueAfter)
+                {
+                    _orderRepository.Save(cart); // Saving cart to submit order address changed.
+                    return ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("ProcessPaymentTaxValueChangedWarning"));
+                }
+            }
+
+            // Add request-specific fields to the request.
+            // Create the request details object.
+            var doExpressChkOutPaymentReqDetails = CreateExpressCheckoutPaymentRequest(getDetailsResponse, orderGroup, payment);
+
+            // Execute the API operation and obtain the response.
+            var doCheckOutResponse = caller.DoExpressCheckoutPayment(new DoExpressCheckoutPaymentReq
+            {
+                DoExpressCheckoutPaymentRequest = new DoExpressCheckoutPaymentRequestType(doExpressChkOutPaymentReqDetails)
+            });
+
+            errorCheck = _payPalAPIHelper.CheckErrors(doCheckOutResponse);
+            if (!string.IsNullOrEmpty(errorCheck))
+            {
+                // unsuccessful doCheckout response
+                _logger.Error(errorCheck);
+                return ProcessUnsuccessfulTransaction(cancelUrl, PaymentTransactionFailedMessage);
+            }
+
+            // everything is fine, this is a flag to tell ProcessPayment know about this case: redirect back from PayPal with accepted payment
+            var errorMessages = new List<string>();
+            var cartCompleted = DoCompletingCart(cart, errorMessages);
+
+            if (!cartCompleted)
+            {
+                return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
+            }
+
+            // Place order
+            var purchaseOrder = MakePurchaseOrder(doCheckOutResponse, cart, payment);
+
+            redirectionUrl = CreateRedirectionUrl(purchaseOrder, acceptUrl, payment.BillingAddress.Email);
 
             _logger.Information($"PayPal transaction succeeds, redirect end user to {redirectionUrl}");
             return redirectionUrl;
@@ -336,38 +334,43 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
 
             var isSuccess = true;
 
-            if (_featureSwitch.IsSerializedCartsEnabled())
+            if (_databaseMode.Value != DatabaseMode.ReadOnly)
             {
-                var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
-                cart.AdjustInventoryOrRemoveLineItems((item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
-
-                isSuccess = !validationIssues.Any();
-
-                foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
+                if (_featureSwitch.IsSerializedCartsEnabled())
                 {
-                    if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                    var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
+                    cart.AdjustInventoryOrRemoveLineItems(
+                        (item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
+
+                    isSuccess = !validationIssues.Any();
+
+                    foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
                     {
-                        errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                        {
+                            errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        }
+                        else
+                        {
+                            errorMessages.Add(Utilities.Translate("CartValidationWarning"));
+                        }
                     }
-                    else
-                    {
-                        errorMessages.Add(Utilities.Translate("CartValidationWarning"));
-                    }
+
+                    return isSuccess;
                 }
 
-                return isSuccess;
-            }
+                // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
+                var isIgnoreProcessPayment = new Dictionary<string, object> {{"PreventProcessPayment", true}};
+                var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup) cart,
+                    OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
 
-            // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
-            var isIgnoreProcessPayment = new Dictionary<string, object> { { "PreventProcessPayment", true } };
-            var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup)cart, OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
+                var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
+                isSuccess = warnings.Count == 0;
 
-            var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
-            isSuccess = warnings.Count == 0;
-
-            foreach (string message in warnings.Values)
-            {
-                errorMessages.Add(message);
+                foreach (string message in warnings.Values)
+                {
+                    errorMessages.Add(message);
+                }
             }
 
             return isSuccess;
@@ -396,8 +399,11 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var paymentTransactionID = doCheckOutResponse.DoExpressCheckoutPaymentResponseDetails.PaymentInfo[0].TransactionID;
             UpdateTransactionIdOfPaymentMethod(purchaseOrder, paymentTransactionID);
 
-            // Update last order date time for CurrentContact
-            UpdateLastOrderTimestampOfCurrentContact(CustomerContext.Current.CurrentContact, purchaseOrder.Created);
+            if (_databaseMode.Value != DatabaseMode.ReadOnly)
+            {
+                // Update last order date time for CurrentContact
+                UpdateLastOrderTimestampOfCurrentContact(CustomerContext.Current.CurrentContact, purchaseOrder.Created);
+            }
 
             AddNoteToPurchaseOrder(string.Empty, $"New order placed by {PrincipalInfo.CurrentPrincipal.Identity.Name} in Public site", Guid.Empty, purchaseOrder);
 
@@ -438,7 +444,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             }
 
             _logger.Error($"PayPal transaction failed [{errorMessage}].");
-            return UriUtil.AddQueryString(cancelUrl, "message", errorMessage);
+            return UriUtil.AddQueryString(cancelUrl, "message", HttpUtility.UrlEncode(errorMessage));
         }
 
         /// <summary>
@@ -476,7 +482,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var errorCheck = _payPalAPIHelper.CheckErrors(captureResponse);
             if (!string.IsNullOrEmpty(errorCheck))
             {
-                return PaymentProcessingResult.CreateUnsuccessfulResult(errorCheck);
+                _logger.Error(errorCheck);
+                return PaymentProcessingResult.CreateUnsuccessfulResult(PaymentTransactionFailedMessage);
             }
 
             var captureResponseDetails = captureResponse.DoCaptureResponseDetails;
@@ -539,7 +546,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var errorCheck = _payPalAPIHelper.CheckErrors(refundResponse);
             if (!string.IsNullOrEmpty(errorCheck))
             {
-                return PaymentProcessingResult.CreateUnsuccessfulResult(errorCheck);
+                _logger.Error(errorCheck);
+                return PaymentProcessingResult.CreateUnsuccessfulResult(PaymentTransactionFailedMessage);
             }
 
             // Extract the response details.
@@ -578,7 +586,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             if (!string.IsNullOrEmpty(errorCheck))
             {
                 _logger.Error(errorCheck);
-                return PaymentProcessingResult.CreateUnsuccessfulResult(string.Join("; ", setChkOutResponse.Errors.Select(e => e.LongMessage)));
+                return PaymentProcessingResult.CreateUnsuccessfulResult(PaymentTransactionFailedMessage);
             }
 
             payment.Properties[PayPalOrderNumberPropertyName] = orderNumberID;
@@ -674,6 +682,15 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
                 contact.LastOrder = datetime;
                 contact.SaveChanges();
             }
+        }
+
+        private static DatabaseMode GetDefaultDatabaseMode()
+        {
+            if (!_databaseMode.IsValueCreated)
+            {
+                return ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode;
+            }
+            return _databaseMode.Value;
         }
     }
 }

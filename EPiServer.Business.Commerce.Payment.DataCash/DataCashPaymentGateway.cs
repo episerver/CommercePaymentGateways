@@ -1,21 +1,21 @@
 ﻿using EPiServer.Commerce.Order;
+using EPiServer.Data;
 using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
+using EPiServer.Web;
 using Mediachase.Commerce.Core.Features;
 using Mediachase.Commerce.Extensions;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Plugins.Payment;
 using Mediachase.Commerce.Security;
-using Mediachase.Data.Provider;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using EPiServer.Web;
 
 namespace EPiServer.Business.Commerce.Payment.DataCash
 {
@@ -27,6 +27,7 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         private readonly IOrderNumberGenerator _orderNumberGenerator;
         private readonly LocalizationService _localizationService;
         private static readonly ILogger _logger = LogManager.GetLogger(typeof(DataCashPaymentGateway));
+        private static Lazy<DatabaseMode> _databaseMode = new Lazy<DatabaseMode>(GetDefaultDatabaseMode);
 
         private readonly DataCashConfiguration _dataCashConfiguration;
         private readonly RequestDocumentCreation _requestDocumentCreation;
@@ -158,54 +159,48 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
         /// <returns>The url redirection after process.</returns>
         public string ProcessSuccessfulTransaction(IOrderGroup orderGroup, IPayment payment, string acceptUrl, string cancelUrl)
         {
-            var cart = orderGroup as ICart;
-            if (cart == null)
+            if (!(orderGroup is ICart cart))
             {
                 // return to the shopping cart page immediately and show error messages
                 return ProcessUnsuccessfulTransaction(cancelUrl, Utilities.Translate("CommitTranErrorCartNull"));
             }
 
-            using (var scope = new TransactionScope())
+            var orderForm = orderGroup.Forms.FirstOrDefault(f => f.Payments.Contains(payment));
+            var result = PreAuthenticateRequest(orderGroup, orderForm, payment, out var authenticateCode);
+
+            if (!result.IsSuccessful && string.IsNullOrEmpty(authenticateCode))
             {
-                var orderForm = orderGroup.Forms.FirstOrDefault(f => f.Payments.Contains(payment));
-                string authenticateCode;
-                var result = PreAuthenticateRequest(orderGroup, orderForm, payment, out authenticateCode);
-
-                if (!result.IsSuccessful && string.IsNullOrEmpty(authenticateCode))
-                {
-                    _logger.Error(result.Message);
-                    return ProcessUnsuccessfulTransaction(cancelUrl, result.Message);
-                }
-
-                var errorMessages = new List<string>();
-                var cartCompleted = DoCompletingCart(cart, errorMessages);
-
-                if (!cartCompleted)
-                {
-                    return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
-                }
-
-                payment.Properties[DataCashAuthenticateCodePropertyName] = authenticateCode;
-                payment.TransactionID = payment.Properties[DataCashReferencePropertyName] as string;
-
-                // Save changes
-                var orderReference = _orderRepository.SaveAsPurchaseOrder(orderGroup);
-                var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
-                purchaseOrder.OrderNumber = _orderNumberGenerator.GenerateOrderNumber(purchaseOrder);
-
-                _orderRepository.Save(purchaseOrder);
-                _orderRepository.Delete(orderGroup.OrderLink);
-
-                scope.Complete();
-
-                var email = payment.BillingAddress.Email;
-
-                acceptUrl = UriUtil.AddQueryString(acceptUrl, "success", "true");
-                acceptUrl = UriUtil.AddQueryString(acceptUrl, "contactId", purchaseOrder.CustomerId.ToString());
-                acceptUrl = UriUtil.AddQueryString(acceptUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
-                acceptUrl = UriUtil.AddQueryString(acceptUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
-                acceptUrl = UriUtil.AddQueryString(acceptUrl, "email", email);
+                _logger.Error(result.Message);
+                return ProcessUnsuccessfulTransaction(cancelUrl, result.Message);
             }
+
+            var errorMessages = new List<string>();
+            var cartCompleted = DoCompletingCart(cart, errorMessages);
+
+            if (!cartCompleted)
+            {
+                return UriUtil.AddQueryString(cancelUrl, "message", string.Join(";", errorMessages.Distinct().ToArray()));
+            }
+
+            payment.Properties[DataCashAuthenticateCodePropertyName] = authenticateCode;
+            payment.TransactionID = payment.Properties[DataCashReferencePropertyName] as string;
+
+            // Save changes
+            var orderReference = _orderRepository.SaveAsPurchaseOrder(orderGroup);
+            var purchaseOrder = _orderRepository.Load<IPurchaseOrder>(orderReference.OrderGroupId);
+            purchaseOrder.OrderNumber = _orderNumberGenerator.GenerateOrderNumber(purchaseOrder);
+
+            _orderRepository.Save(purchaseOrder);
+            _orderRepository.Delete(orderGroup.OrderLink);
+
+            var email = payment.BillingAddress.Email;
+
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "success", "true");
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "contactId", purchaseOrder.CustomerId.ToString());
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "orderNumber", purchaseOrder.OrderLink.OrderGroupId.ToString());
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "notificationMessage", string.Format(_localizationService.GetString("/OrderConfirmationMail/ErrorMessages/SmtpFailure"), email));
+            acceptUrl = UriUtil.AddQueryString(acceptUrl, "email", email);
+
             return acceptUrl;
         }
 
@@ -239,41 +234,43 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
             }
 
             var isSuccess = true;
-
-            if (_featureSwitch.IsSerializedCartsEnabled())
+            if (_databaseMode.Value != DatabaseMode.ReadOnly)
             {
-                var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
-                cart.AdjustInventoryOrRemoveLineItems((item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
-
-                isSuccess = !validationIssues.Any();
-
-                foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
+                if (_featureSwitch.IsSerializedCartsEnabled())
                 {
-                    if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                    var validationIssues = new Dictionary<ILineItem, IList<ValidationIssue>>();
+                    cart.AdjustInventoryOrRemoveLineItems((item, issue) => AddValidationIssues(validationIssues, item, issue), _inventoryProcessor);
+
+                    isSuccess = !validationIssues.Any();
+
+                    foreach (var issue in validationIssues.Values.SelectMany(x => x).Distinct())
                     {
-                        errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        if (issue == ValidationIssue.RejectedInventoryRequestDueToInsufficientQuantity)
+                        {
+                            errorMessages.Add(Utilities.Translate("NotEnoughStockWarning"));
+                        }
+                        else
+                        {
+                            errorMessages.Add(Utilities.Translate("CartValidationWarning"));
+                        }
                     }
-                    else
-                    {
-                        errorMessages.Add(Utilities.Translate("CartValidationWarning"));
-                    }
+
+                    return isSuccess;
                 }
 
-                return isSuccess;
+                // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
+                var isIgnoreProcessPayment = new Dictionary<string, object> { { "PreventProcessPayment", true } };
+                var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup)cart,
+                    OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
+
+                var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
+                isSuccess = warnings.Count == 0;
+
+                foreach (string message in warnings.Values)
+                {
+                    errorMessages.Add(message);
+                }
             }
-
-            // Execute CheckOutWorkflow with parameter to ignore running process payment activity again.
-            var isIgnoreProcessPayment = new Dictionary<string, object> { { "PreventProcessPayment", true } };
-            var workflowResults = OrderGroupWorkflowManager.RunWorkflow((OrderGroup)cart, OrderGroupWorkflowManager.CartCheckOutWorkflowName, true, isIgnoreProcessPayment);
-
-            var warnings = workflowResults.OutputParameters["Warnings"] as StringDictionary;
-            isSuccess = warnings.Count == 0;
-
-            foreach (string message in warnings.Values)
-            {
-                errorMessages.Add(message);
-            }
-
             return isSuccess;
         }
 
@@ -423,5 +420,9 @@ namespace EPiServer.Business.Commerce.Payment.DataCash
             orderNote.Created = DateTime.UtcNow;
             purchaseOrder.Notes.Add(orderNote);
         }
+
+        private static DatabaseMode GetDefaultDatabaseMode() => !_databaseMode.IsValueCreated ?
+                ServiceLocator.Current.GetInstance<IDatabaseMode>().DatabaseMode : _databaseMode.Value;
+
     }
 }
