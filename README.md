@@ -1,13 +1,15 @@
 # Commerce Payment Providers
 Open-sourced payment gateways for Episerver Commerce. This solution contains:
+* AuthorizeTokenEx payment provider project.
+This provider connects Episerver Commerce with AuthorizeNet, using TokenEx service for PCI Compliance.
+* AuthorizeTokenEx.CSR payment provider project.
+This project supports for CSR module, to working with AuthorizeNet using TokenEx service in CSR.
 * DataCash payment provider project.
 This provider connects Episerver Commerce with DataCash, providing multi-channel global payment processing services and advanced fraud prevention and risk management solutions.
 * DIBS payment provider project.
 This provider connects Episerver Commerce with DIBS, a popular and widely used system for accepting credit card payments.
 * PayPal payment provider project.
 This provider connects Episerver Commerce with PayPal, a widely used and internationally recognized system for accepting credit card payments.
-* Nsoftware payment gateway project.
-This provider connects Episerver Commerce with Nsoftware E-Payment, components for Credit Card and Electronic Check processing via major Internet payment gateways.
 * Test projects for DataCash, DIBS and PayPal providers.
 
 ## Project structure

@@ -1,23 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2037
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DataCash", "EPiServer.Business.Commerce.Payment.DataCash\EPiServer.Business.Commerce.Payment.DataCash.csproj", "{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.DataCash", "EPiServer.Business.Commerce.Payment.DataCash\EPiServer.Business.Commerce.Payment.DataCash.csproj", "{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23E2768D-C9BB-4744-B37C-D8404F216E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DataCash.Tests", "EPiServer.Business.Commerce.Payment.DataCash.Tests\EPiServer.Business.Commerce.Payment.DataCash.Tests.csproj", "{545837FA-3EB2-4A08-B127-B3BFECA05540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Commerce.Payment.AuthorizeTokenEx", "EPiServer.Commerce.Payment.AuthorizeTokenEx\EPiServer.Commerce.Payment.AuthorizeTokenEx.csproj", "{1DF7F2C4-2DB5-4F02-8E66-DA951227F933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.PayPal", "EPiServer.Business.Commerce.Payment.PayPal\EPiServer.Business.Commerce.Payment.PayPal.csproj", "{302BF31E-F7ED-45F7-8BF1-2EFF5640333F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.DataCash.Tests", "EPiServer.Business.Commerce.Payment.DataCash.Tests\EPiServer.Business.Commerce.Payment.DataCash.Tests.csproj", "{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.PayPal.Tests", "EPiServer.Business.Commerce.Payment.PayPal.Tests\EPiServer.Business.Commerce.Payment.PayPal.Tests.csproj", "{EF89D648-8568-487B-8712-C57C12133AB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.PayPal", "EPiServer.Business.Commerce.Payment.PayPal\EPiServer.Business.Commerce.Payment.PayPal.csproj", "{A2E4036A-E96F-4A4D-8563-685056A0B361}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DIBS", "EPiServer.Business.Commerce.Payment.DIBS\EPiServer.Business.Commerce.Payment.DIBS.csproj", "{26D6F1AE-ED61-45B2-AA8F-16AB5A30A68D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.PayPal.Tests", "EPiServer.Business.Commerce.Payment.PayPal.Tests\EPiServer.Business.Commerce.Payment.PayPal.Tests.csproj", "{DFD534C3-2B9F-4393-9B89-E15B4E14470D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Business.Commerce.Payment.DIBS.Tests", "EPiServer.Business.Commerce.Payment.DIBS.Tests\EPiServer.Business.Commerce.Payment.DIBS.Tests.csproj", "{58753FB1-B2C2-4466-A80C-8E837C26CC84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.DIBS", "EPiServer.Business.Commerce.Payment.DIBS\EPiServer.Business.Commerce.Payment.DIBS.csproj", "{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProviders.Nsoftware.PaymentGateway", "PaymentProviders.Nsoftware.PaymentGateway\PaymentProviders.Nsoftware.PaymentGateway.csproj", "{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Business.Commerce.Payment.DIBS.Tests", "EPiServer.Business.Commerce.Payment.DIBS.Tests\EPiServer.Business.Commerce.Payment.DIBS.Tests.csproj", "{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EPiServer.Commerce.Payment.AuthorizeTokenEx.CSR", "EPiServer.Commerce.Payment.AuthorizeTokenEx.CSR\EPiServer.Commerce.Payment.AuthorizeTokenEx.CSR.csproj", "{7F7B0A8C-C170-4EF5-8AFA-678C1CD7D29B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,44 +27,48 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{900DBFF5-B316-4D12-B6B2-57E9E6BEE8DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{545837FA-3EB2-4A08-B127-B3BFECA05540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{545837FA-3EB2-4A08-B127-B3BFECA05540}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{545837FA-3EB2-4A08-B127-B3BFECA05540}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{545837FA-3EB2-4A08-B127-B3BFECA05540}.Release|Any CPU.Build.0 = Release|Any CPU
-		{302BF31E-F7ED-45F7-8BF1-2EFF5640333F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{302BF31E-F7ED-45F7-8BF1-2EFF5640333F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{302BF31E-F7ED-45F7-8BF1-2EFF5640333F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{302BF31E-F7ED-45F7-8BF1-2EFF5640333F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF89D648-8568-487B-8712-C57C12133AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF89D648-8568-487B-8712-C57C12133AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF89D648-8568-487B-8712-C57C12133AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF89D648-8568-487B-8712-C57C12133AB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26D6F1AE-ED61-45B2-AA8F-16AB5A30A68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26D6F1AE-ED61-45B2-AA8F-16AB5A30A68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26D6F1AE-ED61-45B2-AA8F-16AB5A30A68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26D6F1AE-ED61-45B2-AA8F-16AB5A30A68D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58753FB1-B2C2-4466-A80C-8E837C26CC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58753FB1-B2C2-4466-A80C-8E837C26CC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58753FB1-B2C2-4466-A80C-8E837C26CC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58753FB1-B2C2-4466-A80C-8E837C26CC84}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73DD4569-213B-48B2-A8FD-9FBA0DF2C6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC74521-2CBB-4ED1-9EB6-FF6303B8959A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DF7F2C4-2DB5-4F02-8E66-DA951227F933}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2E4036A-E96F-4A4D-8563-685056A0B361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2E4036A-E96F-4A4D-8563-685056A0B361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2E4036A-E96F-4A4D-8563-685056A0B361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2E4036A-E96F-4A4D-8563-685056A0B361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD534C3-2B9F-4393-9B89-E15B4E14470D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD534C3-2B9F-4393-9B89-E15B4E14470D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD534C3-2B9F-4393-9B89-E15B4E14470D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD534C3-2B9F-4393-9B89-E15B4E14470D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00AFB383-EE3B-4872-8B67-3B95A0DB0B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8728A230-8C27-4A8C-936D-1D9D6E5A59D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F7B0A8C-C170-4EF5-8AFA-678C1CD7D29B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7B0A8C-C170-4EF5-8AFA-678C1CD7D29B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7B0A8C-C170-4EF5-8AFA-678C1CD7D29B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7B0A8C-C170-4EF5-8AFA-678C1CD7D29B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{545837FA-3EB2-4A08-B127-B3BFECA05540} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
-		{EF89D648-8568-487B-8712-C57C12133AB3} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
-		{58753FB1-B2C2-4466-A80C-8E837C26CC84} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
+		{0DF7F2C4-2DB5-4F02-8E66-DA951227F933} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
+		{DFD534C3-2B9F-4393-9B89-E15B4E14470D} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
+		{8728A230-8C27-4A8C-936D-1D9D6E5A59D7} = {23E2768D-C9BB-4744-B37C-D8404F216E52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3965A2CD-66F8-45F3-8F75-C8E7E2B222EB}
+		SolutionGuid = {4D574470-728C-4148-B5E8-EE39C50F671A}
 	EndGlobalSection
 EndGlobal
