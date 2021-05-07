@@ -101,16 +101,17 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private void UpdateOrCreateParameter(string parameterName, TextBox parameterControl, Guid paymentMethodId)
         {
             var parameter = GetParameterByName(parameterName);
+            var encryptedValue = EncrytionHelper.EncryptString(parameterControl.Text);
             if (parameter != null)
             {
-                parameter.Value = parameterControl.Text;
+                parameter.Value = encryptedValue;
             }
             else
             {
                 var row = _paymentMethodDto.PaymentMethodParameter.NewPaymentMethodParameterRow();
                 row.PaymentMethodId = paymentMethodId;
                 row.Parameter = parameterName;
-                row.Value = parameterControl.Text;
+                row.Value = encryptedValue;
                 _paymentMethodDto.PaymentMethodParameter.Rows.Add(row);
             }
         }
@@ -119,16 +120,17 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         {
             var parameter = GetParameterByName(parameterName);
             var value = parameterControl.Checked ? "1" : "0";
+            var encryptedValue = EncrytionHelper.EncryptString(value);
             if (parameter != null)
             {
-                parameter.Value = value;
+                parameter.Value = encryptedValue;
             }
             else
             {
                 var row = _paymentMethodDto.PaymentMethodParameter.NewPaymentMethodParameterRow();
                 row.PaymentMethodId = paymentMethodId;
                 row.Parameter = parameterName;
-                row.Value = value;
+                row.Value = encryptedValue;
                 _paymentMethodDto.PaymentMethodParameter.Rows.Add(row);
             }
         }
@@ -137,16 +139,17 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         {
             var parameter = GetParameterByName(parameterName);
             var value = parameterControl.SelectedValue;
+            var encryptedValue = EncrytionHelper.EncryptString(value);
             if (parameter != null)
             {
-                parameter.Value = value;
+                parameter.Value = encryptedValue;
             }
             else
             {
                 var row = _paymentMethodDto.PaymentMethodParameter.NewPaymentMethodParameterRow();
                 row.PaymentMethodId = paymentMethodId;
                 row.Parameter = parameterName;
-                row.Value = value;
+                row.Value = encryptedValue;
                 _paymentMethodDto.PaymentMethodParameter.Rows.Add(row);
             }
         }
@@ -156,7 +159,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var parameterByName = GetParameterByName(parameterName);
             if (parameterByName != null)
             {
-                parameterControl.Text = parameterByName.Value;
+                parameterControl.Text = EncrytionHelper.DecryptString(parameterByName.Value);
             }
         }
 
@@ -165,7 +168,8 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var parameterByName = GetParameterByName(parameterName);
             if (parameterByName != null)
             {
-                parameterControl.Checked = parameterByName.Value == "1";
+                var decryptedValue = EncrytionHelper.DecryptString(parameterByName.Value);
+                parameterControl.Checked = decryptedValue == "1";
             }
         }
 
@@ -174,7 +178,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
             var parameterByName = GetParameterByName(parameterName);
             if (parameterByName != null)
             {
-                parameterControl.SelectedValue = parameterByName.Value;
+                parameterControl.SelectedValue = EncrytionHelper.DecryptString(parameterByName.Value);
             }
         }
 

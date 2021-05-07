@@ -128,7 +128,7 @@ namespace EPiServer.Business.Commerce.Payment.PayPal
         private string GetParameterValue(string parameterName)
         {
             string parameterValue;
-            return _settings.TryGetValue(parameterName, out parameterValue) ? parameterValue : string.Empty;
+            return _settings.TryGetValue(parameterName, out parameterValue) ? EncrytionHelper.DecryptString(parameterValue) : string.Empty;
         }
 
         private Guid GetPaymentMethodId()
